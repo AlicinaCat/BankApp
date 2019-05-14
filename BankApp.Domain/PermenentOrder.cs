@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankApp.Web
+namespace BankApp.Domain
 {
     public partial class PermenentOrder
     {
@@ -12,6 +12,6 @@ namespace BankApp.Web
         public decimal? Amount { get; set; }
         public string Symbol { get; set; }
 
-        public virtual Accounts Account { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankApp.Web
+namespace BankApp.Domain
 {
-    public partial class Dispositions
+    public partial class Disposition
     {
-        public Dispositions()
+        public Disposition()
         {
-            Cards = new HashSet<Cards>();
+            Cards = new HashSet<Card>();
         }
 
         public int DispositionId { get; set; }
@@ -15,8 +15,8 @@ namespace BankApp.Web
         public int AccountId { get; set; }
         public string Type { get; set; }
 
-        public virtual Accounts Account { get; set; }
-        public virtual Customers Customer { get; set; }
-        public virtual ICollection<Cards> Cards { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
     }
 }

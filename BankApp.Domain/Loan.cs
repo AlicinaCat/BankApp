@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankApp.Web
+namespace BankApp.Domain
 {
-    public partial class Loans
+    public partial class Loan
     {
         public int LoanId { get; set; }
         public int AccountId { get; set; }
@@ -13,6 +13,6 @@ namespace BankApp.Web
         public decimal Payments { get; set; }
         public string Status { get; set; }
 
-        public virtual Accounts Account { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankApp.Web
+namespace BankApp.Domain
 {
-    public partial class Accounts
+    public partial class Account
     {
-        public Accounts()
+        public Account()
         {
-            Dispositions = new HashSet<Dispositions>();
-            Loans = new HashSet<Loans>();
+            Dispositions = new HashSet<Disposition>();
+            Loans = new HashSet<Loan>();
             PermenentOrder = new HashSet<PermenentOrder>();
-            Transactions = new HashSet<Transactions>();
+            Transactions = new HashSet<Transaction>();
         }
 
         public int AccountId { get; set; }
@@ -18,9 +18,9 @@ namespace BankApp.Web
         public DateTime Created { get; set; }
         public decimal Balance { get; set; }
 
-        public virtual ICollection<Dispositions> Dispositions { get; set; }
-        public virtual ICollection<Loans> Loans { get; set; }
+        public virtual ICollection<Disposition> Dispositions { get; set; }
+        public virtual ICollection<Loan> Loans { get; set; }
         public virtual ICollection<PermenentOrder> PermenentOrder { get; set; }
-        public virtual ICollection<Transactions> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

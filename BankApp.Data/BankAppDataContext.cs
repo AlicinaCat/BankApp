@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using BankApp.Domain;
 
-namespace BankApp.Web
+namespace BankApp.Data
 {
     public partial class BankAppDataContext : DbContext
     {
@@ -15,13 +16,13 @@ namespace BankApp.Web
         {
         }
 
-        public virtual DbSet<Accounts> Accounts { get; set; }
-        public virtual DbSet<Cards> Cards { get; set; }
-        public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<Dispositions> Dispositions { get; set; }
-        public virtual DbSet<Loans> Loans { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Card> Cards { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Disposition> Dispositions { get; set; }
+        public virtual DbSet<Loan> Loans { get; set; }
         public virtual DbSet<PermenentOrder> PermenentOrder { get; set; }
-        public virtual DbSet<Transactions> Transactions { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,7 +37,7 @@ namespace BankApp.Web
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity<Accounts>(entity =>
+            modelBuilder.Entity<Account>(entity =>
             {
                 entity.HasKey(e => e.AccountId)
                     .HasName("PK_account");
@@ -50,7 +51,7 @@ namespace BankApp.Web
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Cards>(entity =>
+            modelBuilder.Entity<Card>(entity =>
             {
                 entity.HasKey(e => e.CardId);
 
@@ -82,7 +83,7 @@ namespace BankApp.Web
                     .HasConstraintName("FK_Cards_Dispositions");
             });
 
-            modelBuilder.Entity<Customers>(entity =>
+            modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasKey(e => e.CustomerId);
 
@@ -129,7 +130,7 @@ namespace BankApp.Web
                     .HasMaxLength(15);
             });
 
-            modelBuilder.Entity<Dispositions>(entity =>
+            modelBuilder.Entity<Disposition>(entity =>
             {
                 entity.HasKey(e => e.DispositionId)
                     .HasName("PK_disposition");
@@ -151,7 +152,7 @@ namespace BankApp.Web
                     .HasConstraintName("FK_Dispositions_Customers");
             });
 
-            modelBuilder.Entity<Loans>(entity =>
+            modelBuilder.Entity<Loan>(entity =>
             {
                 entity.HasKey(e => e.LoanId)
                     .HasName("PK_loan");
@@ -198,7 +199,7 @@ namespace BankApp.Web
                     .HasConstraintName("FK_PermenentOrder_Accounts");
             });
 
-            modelBuilder.Entity<Transactions>(entity =>
+            modelBuilder.Entity<Transaction>(entity =>
             {
                 entity.HasKey(e => e.TransactionId)
                     .HasName("PK_trans2");
