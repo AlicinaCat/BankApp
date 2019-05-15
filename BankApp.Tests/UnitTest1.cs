@@ -13,8 +13,8 @@ namespace Tests
     {
         DbContextOptions<BankAppDataContext> options;
         BankAppDataContext context;
-        Account_Queries queries;
-        Account_Actions actions;
+        Account_Queries account_queries;
+        Account_Actions account_actions;
 
         [SetUp]
         public void Setup()
@@ -24,8 +24,8 @@ namespace Tests
                     .Options;
 
             context = new BankAppDataContext(options);
-            queries = new Account_Queries(context);
-            actions = new Account_Actions(context, queries);
+            account_queries = new Account_Queries(context);
+            account_actions = new Account_Actions(context, account_queries);
         }
 
         [Test]
@@ -36,12 +36,12 @@ namespace Tests
             context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
             context.SaveChanges();
 
-            decimal balanceBefore = queries.GetAccount(accountId).Balance;
+            decimal balanceBefore = account_queries.GetAccount(accountId).Balance;
             decimal depositAmount = 1000;
 
-            actions.Deposit(accountId, depositAmount);
+            account_actions.Deposit(accountId, depositAmount);
 
-            decimal balanceAfter = queries.GetAccount(accountId).Balance;
+            decimal balanceAfter = account_queries.GetAccount(accountId).Balance;
 
             Assert.Greater(balanceAfter, balanceBefore);
         }
@@ -54,12 +54,12 @@ namespace Tests
             context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
             context.SaveChanges();
 
-            decimal balanceBefore = queries.GetAccount(accountId).Balance;
+            decimal balanceBefore = account_queries.GetAccount(accountId).Balance;
             decimal withdrawalAmount = 1000;
 
-            actions.Withdraw(accountId, withdrawalAmount);
+            account_actions.Withdraw(accountId, withdrawalAmount);
 
-            decimal balanceAfter = queries.GetAccount(accountId).Balance;
+            decimal balanceAfter = account_queries.GetAccount(accountId).Balance;
 
             Assert.Less(balanceAfter, balanceBefore);
         }
@@ -71,7 +71,21 @@ namespace Tests
             int accountId = 1;
             decimal depositAmount = 100;
 
-            actions.Deposit(accountId, depositAmount);
+            account_actions.Deposit(accountId, depositAmount);
+
+            int allTransactionsAfter = context.Transactions.CountAsync().Result;
+
+            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
+        }
+
+        [Test]
+        public void TransactionIsCreated_WhenUserWithdraws()
+        {
+            int allTransactionsBefore = context.Transactions.CountAsync().Result;
+            int accountId = 1;
+            decimal withdrawalAmount = 100;
+
+            account_actions.Withdraw(accountId, withdrawalAmount);
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 
