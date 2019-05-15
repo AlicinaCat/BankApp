@@ -13,8 +13,8 @@ namespace Tests
     {
         DbContextOptions<BankAppDataContext> options;
         BankAppDataContext context;
-        GetQueries queries;
-        Actions actions;
+        Account_Queries queries;
+        Account_Actions actions;
 
         [SetUp]
         public void Setup()
@@ -24,8 +24,8 @@ namespace Tests
                     .Options;
 
             context = new BankAppDataContext(options);
-            queries = new GetQueries(context);
-            actions = new Actions(context, queries);
+            queries = new Account_Queries(context);
+            actions = new Account_Actions(context, queries);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace Tests
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 
-            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore);
+            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
         }
     }
 }
