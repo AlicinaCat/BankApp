@@ -12,11 +12,8 @@
     <ProjectReference Include="..\BankApp.Data\BankApp.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Customers\" />
     <Folder Include="Customers\Commands\" />
-    <Folder Include="Customers\Queries\" />
     <Folder Include="Accounts\" />
-    <Folder Include="Cards\" />
     <Folder Include="Dispositions \" />
     <Folder Include="Loans\" />
     <Folder Include="PermenentOrders\" />

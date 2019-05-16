@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BankApp.Domain;
+using BankApp.App.ViewModels;
+using BankApp.App;
+using BankApp.App.Accounts.Queries;
 
 namespace BankApp.Web.Controllers
 {
@@ -11,7 +15,9 @@ namespace BankApp.Web.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            IndexViewModel model = new IndexViewModel();
+
+            return View(model);
         }
     }
 }
