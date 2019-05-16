@@ -9,11 +9,30 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="~/css/materialize.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" media="screen,projection" />
 </head>
 <body>
+
+    <nav>
+        <div class="nav-wrapper cyan darken-2">
+            <a href="#" class="brand-logo"> ~ BankApp</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>Hello, user!</li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Stuff</a></li>
+            </ul>
+        </div>
+    </nav>
     <div>
-        @RenderBody()
-    </div>
+
+                <div class="col s10 m8 l9">
+                    @RenderBody()
+
+                </div>
+
+            </div>
+    
+
 
     <script type="text/javascript" src="~/js/materialize.js"></script>
 
