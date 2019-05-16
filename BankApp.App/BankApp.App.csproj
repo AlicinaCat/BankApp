@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankApp.Domain\BankApp.Domain.csproj" />
+    <ProjectReference Include="..\BankApp.Data\BankApp.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Customers\" />
+    <Folder Include="Customers\Commands\" />
+    <Folder Include="Customers\Queries\" />
+    <Folder Include="Accounts\" />
+    <Folder Include="Cards\" />
+    <Folder Include="Dispositions \" />
+    <Folder Include="Loans\" />
+    <Folder Include="PermenentOrders\" />
+    <Folder Include="Transactions\" />
+    <Folder Include="Accounts\Commands\" />
+    <Folder Include="Accounts\Queries\" />
+    <Folder Include="Cards\Commands\" />
+    <Folder Include="Cards\Queries\" />
+    <Folder Include="Dispositions \Commands\" />
+    <Folder Include="Dispositions \Queries\" />
+    <Folder Include="Loans\Commands\" />
+    <Folder Include="Loans\Queries\" />
+    <Folder Include="PermenentOrders\Commands\" />
+    <Folder Include="PermenentOrders\Queries\" />
+    <Folder Include="Transactions\Commands\" />
+    <Folder Include="Transactions\Queries\" />
+  </ItemGroup>
+</Project>
