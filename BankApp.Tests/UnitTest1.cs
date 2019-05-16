@@ -110,5 +110,21 @@ namespace Tests
 
             Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
         }
+
+        [Test]
+        public void TransactionsAreCreated_WhenUserTransfers()
+        {
+            int allTransactionsBefore = context.Transactions.CountAsync().Result;
+
+            int accountFromId = 1;
+            int accountToId = 2;
+            decimal transferAmount = 100;
+
+            account_actions.Transfer(accountFromId, accountToId, transferAmount);
+
+            int allTransactionsAfter = context.Transactions.CountAsync().Result;
+
+            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 2);
+        }
     }
 }
