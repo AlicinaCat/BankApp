@@ -328,4 +328,4 @@ BankApp.App/bin/Debug/netstandard2.0/BankApp.App.pdb
 BankApp.App/obj/Debug/netstandard2.0/BankApp.App.csproj.CoreCompileInputs.cache
 BankApp.App/obj/Debug/netstandard2.0/BankApp.App.dll
 BankApp.App/obj/Debug/netstandard2.0/BankApp.App.pdb
-bin/
+bin\Debug\netstandard2.0
