@@ -20,7 +20,7 @@ namespace Tests
         public void Setup()
         {
             options = new DbContextOptionsBuilder<BankAppDataContext>()
-                    .UseInMemoryDatabase(databaseName: "CheckDeposits")
+                    .UseInMemoryDatabase(databaseName: "TestingDb")
                     .Options;
 
             context = new BankAppDataContext(options);
@@ -62,6 +62,25 @@ namespace Tests
             decimal balanceAfter = account_queries.GetAccount(accountId).Balance;
 
             Assert.Less(balanceAfter, balanceBefore);
+        }
+
+        [Test]
+        public void MoneyIsExchangedBetweenAccounts_WhenUserTransfers()
+        {
+            int accountFromId = 1;
+            int accountToId = 2;
+
+            decimal balanceFromBefore = account_queries.GetAccount(accountFromId).Balance;
+            decimal balanceToBefore = account_queries.GetAccount(accountToId).Balance;
+            decimal transferAmount = 100;
+
+            account_actions.Transfer(accountFromId, accountToId, transferAmount);
+
+            decimal balanceFromAfter = account_queries.GetAccount(accountFromId).Balance;
+            decimal balanceToAfter = account_queries.GetAccount(accountToId).Balance;
+
+            Assert.Less(balanceFromAfter, balanceFromBefore);
+            Assert.Greater(balanceToAfter, balanceToBefore);
         }
 
         [Test]
