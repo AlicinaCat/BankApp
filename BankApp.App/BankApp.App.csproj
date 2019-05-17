@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dispositions \**" />
+    <EmbeddedResource Remove="Dispositions \**" />
+    <None Remove="Dispositions \**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -14,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Customers\Commands\" />
     <Folder Include="Accounts\" />
-    <Folder Include="Dispositions \" />
     <Folder Include="Loans\" />
     <Folder Include="PermenentOrders\" />
     <Folder Include="Transactions\" />
@@ -22,8 +27,6 @@
     <Folder Include="Accounts\Queries\" />
     <Folder Include="Cards\Commands\" />
     <Folder Include="Cards\Queries\" />
-    <Folder Include="Dispositions \Commands\" />
-    <Folder Include="Dispositions \Queries\" />
     <Folder Include="Loans\Commands\" />
     <Folder Include="Loans\Queries\" />
     <Folder Include="PermenentOrders\Commands\" />
