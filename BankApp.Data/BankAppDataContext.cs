@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using BankApp.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace BankApp.Data
 {
-    public partial class BankAppDataContext : DbContext
+    public partial class BankAppDataContext : IdentityDbContext<User>
     {
         public BankAppDataContext()
         {
@@ -35,6 +36,8 @@ namespace BankApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity<Account>(entity =>
