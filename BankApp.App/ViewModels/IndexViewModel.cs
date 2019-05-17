@@ -13,6 +13,8 @@ namespace BankApp.App.ViewModels
         private Customer_Queries Customer_Queries;
 
         public int TotalCustomers { get; set; }
+        public int TotalAccounts { get; set; }
+        public decimal TotalBalance { get; set; }
 
         public IndexViewModel()
         {
@@ -20,7 +22,7 @@ namespace BankApp.App.ViewModels
             this.Account_Queries = new Account_Queries(context);
             this.Customer_Queries = new Customer_Queries(context);
             this.TotalCustomers = Customer_Queries.GetCustomers().Count;
-        }
-            
+            this.TotalAccounts = Account_Queries.GetAllAccounts().Count;
+            this.TotalBalance = Account_Queries.CalculateTotalBalance();       }           
     }
 }

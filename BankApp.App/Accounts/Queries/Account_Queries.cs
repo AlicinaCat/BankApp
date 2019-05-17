@@ -24,5 +24,10 @@ namespace BankApp.App.Accounts.Queries
         {
             return context.Accounts.SingleOrDefault(a => a.AccountId == accountId);
         }
+
+        public decimal CalculateTotalBalance()
+        {
+            return context.Accounts.Sum(a => a.Balance);
+        }
     }
 }
