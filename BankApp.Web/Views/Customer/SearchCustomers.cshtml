@@ -1,0 +1,23 @@
+﻿@model BankApp.App.ViewModels.SearchCustomer
+
+@{
+    ViewData["Title"] = "Search customers - BankApp";
+}
+<section class="testimonials text-center bg-light">
+    <div class="container">
+        <h1>Search results</h1>
+        <div class="row col-xl-9 mx-auto">
+            <p class="font-weight-light mb-0 list-group row col-xl-9 mx-auto text-center">The results of the user input "@Model.UserInput"</p>
+            </div>
+        <br /><br />
+        <div class="row">
+            <ul class="list-group row col-xl-9 mx-auto text-center">
+                @foreach (var item in Model.SearchResults)
+                {
+                    <li class="list-group-item"><a href="/Customer/Profile/@item.CustomerId">@item.CustomerId : @item.Givenname @item.Surname, @item.City</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
