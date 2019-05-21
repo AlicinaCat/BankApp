@@ -1,4 +1,4 @@
-﻿@model BankApp.App.ViewModels.SearchCustomer
+﻿@model BankApp.Domain.PaginatedList<BankApp.Domain.Customer>
 
 @{
     ViewData["Title"] = "Search customers - BankApp";
@@ -7,17 +7,37 @@
     <div class="container">
         <h1>Search results</h1>
         <div class="row col-xl-9 mx-auto">
-            <p class="font-weight-light mb-0 list-group row col-xl-9 mx-auto text-center">The results of the user input "@Model.UserInput"</p>
-            </div>
+            <p class="font-weight-light mb-0 list-group row col-xl-9 mx-auto text-center">The results of the user input "@ViewData["CurrentFilter"]"</p>
+        </div>
         <br /><br />
         <div class="row">
             <ul class="list-group row col-xl-9 mx-auto text-center">
-                @foreach (var item in Model.SearchResults)
+                @foreach (var item in Model)
                 {
                     <li class="list-group-item"><a href="/Customer/Profile/@item.CustomerId">@item.CustomerId : @item.Givenname @item.Surname, @item.City</a></li>
                 }
             </ul>
+
+
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+
         </div>
+        <a asp-action="SearchCustomers"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="SearchCustomers"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
     </div>
 </section>
 

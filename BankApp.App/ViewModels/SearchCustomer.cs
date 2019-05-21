@@ -3,6 +3,7 @@ using BankApp.Data;
 using BankApp.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BankApp.App.ViewModels
@@ -13,7 +14,7 @@ namespace BankApp.App.ViewModels
         private Customer_Queries customer_queries;
 
         public string UserInput { get; set; }
-        public List<Customer> SearchResults { get; set; }
+        public IQueryable<Customer> SearchResults { get; set; }
 
         public SearchCustomer()
         {
@@ -21,7 +22,7 @@ namespace BankApp.App.ViewModels
             this.customer_queries = new Customer_Queries(context);
         }
 
-        public List<Customer> GetResults()
+        public IQueryable<Customer> GetResults()
         {
             return SearchResults = customer_queries.SearchCustomers(UserInput);
         }

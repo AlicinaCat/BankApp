@@ -20,11 +20,9 @@ namespace BankApp.Web.ViewComponents
             this.customer_queries = new Customer_Queries(context);
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string userInput)
-        {
-            var model = new SearchCustomer();
-            
-            return View(model);
+        public async Task<IViewComponentResult> InvokeAsync()
+        {   
+            return View();
         }
     }
 }

@@ -26,26 +26,23 @@ namespace BankApp.App.Accounts.Queries
             return context.Customers.SingleOrDefault(c => c.CustomerId == id);
         }
 
-        public List<Customer> SearchCustomers(string userInput)
+        public IQueryable<Customer> SearchCustomers(string userInput)
         {
-            if (userInput != null)
-            {
+
                 userInput = userInput.ToLower();
 
                 if (int.TryParse(userInput, out int result))
                 {
-                    return context.Customers.Where(c => c.CustomerId == result).ToList();
+                    return context.Customers.Include(c => c.Dispositions).Where(c => c.CustomerId == result);
                 }
                 else
                 {
-                    return context.Customers.Where(c => c.Givenname.ToLower().Contains(userInput)
+                    return context.Customers.Include(c => c.Dispositions).Where(c => c.Givenname.ToLower().Contains(userInput)
                                                 || c.Surname.ToLower().Contains(userInput)
-                                                || c.City.ToLower().Contains(userInput))
-                                                .ToList();
+                                                || c.City.ToLower().Contains(userInput));
+                                              
                 }
-            }
-            else
-                return new List<Customer>();
+            
         }
     }
 }
