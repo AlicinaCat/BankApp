@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BankApp.Data;
 using BankApp.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.App.Accounts.Queries
 {
@@ -22,7 +23,7 @@ namespace BankApp.App.Accounts.Queries
 
         public Account GetAccount(int accountId)
         {
-            return context.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+            return context.Accounts.Include(a => a.Transactions).SingleOrDefault(a => a.AccountId == accountId);
         }
 
         public decimal CalculateTotalBalance()

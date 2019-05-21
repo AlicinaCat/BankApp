@@ -1,4 +1,5 @@
 ﻿using BankApp.App.Accounts.Queries;
+using BankApp.App.Customers.Queries;
 using BankApp.Data;
 using System;
 using System.Collections.Generic;

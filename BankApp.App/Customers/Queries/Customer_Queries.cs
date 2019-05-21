@@ -5,7 +5,7 @@ using BankApp.Data;
 using BankApp.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankApp.App.Accounts.Queries
+namespace BankApp.App.Customers.Queries
 {
     public class Customer_Queries
     {

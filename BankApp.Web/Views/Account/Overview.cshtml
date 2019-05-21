@@ -1,0 +1,17 @@
+﻿@model BankApp.App.ViewModels.AccountViewModel
+
+@{
+    ViewData["Title"] = "Account overview";
+}
+
+    <section class="testimonials text-center bg-light">
+        <div class="container">
+
+
+            <h1>Account @Model.Account.AccountId overview</h1>
+
+            @await Html.PartialAsync("_TransactionList", Model.Account.Transactions.ToList())
+
+
+        </div>
+</section>

@@ -83,7 +83,11 @@
             @foreach (var item in Model.ConnectedDispositions)
             {
                 <tr>
-                    <th>@item.Account.AccountId</th>
+                    <th>
+                        <a asp-controller="Account" asp-action="Overview" asp-route-accountId="@item.AccountId" asp-route-customerId="@item.CustomerId">
+                            @item.Account.AccountId
+                        </a>
+                    </th>
                     <td>@item.Account.Balance</td>
                     <td>@item.Type</td>
                     <td>@item.Account.Frequency</td>

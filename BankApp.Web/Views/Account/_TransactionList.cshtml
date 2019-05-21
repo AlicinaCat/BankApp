@@ -1,0 +1,11 @@
+﻿@model List<BankApp.Domain.Transaction>
+
+<h3>Transaction list</h3>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Date</li>
+    }
+</ul>
+
