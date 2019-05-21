@@ -4,69 +4,73 @@
     ViewData["Title"] = $"{Model.Customer.Givenname} {Model.Customer.Surname} - BankApp";
 }
 
-    <section class="testimonials text-center bg-light">
-        <div class="container">
-            <h1>@Model.Customer.Givenname @Model.Customer.Surname</h1>
+<section class="testimonials text-center bg-light">
+    <div class="container">
+        <h1>@Model.Customer.Givenname @Model.Customer.Surname</h1>
 
-            <h3>Profile</h3>
-            <div class="row">
-                <table class="table table-bordered table-hover">
-                    <tr>
-                        <th>Customer Id</th>
-                        <td>@Model.Customer.CustomerId</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>@Model.Customer.Emailaddress</td>
-                    </tr>
-                    <tr>
-                        <th>Phone</th>
-                        <td>(+@Model.Customer.Telephonecountrycode) @Model.Customer.Telephonenumber</td>
-                    </tr>
-                    <tr>
-                        <th>Birthdate</th>
-                        <td>@Model.Customer.Birthday.Value.ToShortDateString()</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td>@Model.Customer.Gender</td>
-                    </tr>
-                    <tr>
-                        <th>Address</th>
-                        <td>@Model.Customer.Streetaddress</td>
-                    </tr>
-                    <tr>
-                        <th>City</th>
-                        <td>@Model.Customer.City</td>
-                    </tr>
-                    <tr>
-                        <th>Zip Code</th>
-                        <td>@Model.Customer.Zipcode</td>
-                    </tr>
-                    <tr>
-                        <th>Country</th>
-                        <td>@Model.Customer.Country</td>
-                    </tr>
-                    <tr>
-                        <th>Country code</th>
-                        <td>@Model.Customer.CountryCode</td>
-                    </tr>
-                    <tr>
-                        <th>National Id</th>
-                        <td>@Model.Customer.NationalId</td>
-                    </tr>
-                </table>
-            </div>
+        <h3>Profile</h3>
+        <div class="row">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>Customer Id</th>
+                    <td>@Model.Customer.CustomerId</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>@Model.Customer.Emailaddress</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>(+@Model.Customer.Telephonecountrycode) @Model.Customer.Telephonenumber</td>
+                </tr>
+                <tr>
+                    <th>Birthdate</th>
+                    <td>@Model.Customer.Birthday.Value.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>@Model.Customer.Gender</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>@Model.Customer.Streetaddress</td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td>@Model.Customer.City</td>
+                </tr>
+                <tr>
+                    <th>Zip Code</th>
+                    <td>@Model.Customer.Zipcode</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>@Model.Customer.Country</td>
+                </tr>
+                <tr>
+                    <th>Country code</th>
+                    <td>@Model.Customer.CountryCode</td>
+                </tr>
+                <tr>
+                    <th>National Id</th>
+                    <td>@Model.Customer.NationalId</td>
+                </tr>
+            </table>
         </div>
-            
 
-            <h3>Accounts</h3>
+        <h3>Accounts</h3>
 
-            <table class="striped highlight">
+
+        @if (Model.ConnectedDispositions.Count > 0)
+        {
+    <div class="row">
+        <table class="table table-bordered table-hover">
+
+            <thead>
                 <tr>
                     <th>Id</th>
                     <th>Balance</th>
@@ -74,26 +78,32 @@
                     <th>Frequency</th>
                     <th>Created</th>
                 </tr>
+            </thead>
 
-                @foreach (var item in Model.ConnectedDispositions)
+            @foreach (var item in Model.ConnectedDispositions)
+            {
+                <tr>
+                    <th>@item.Account.AccountId</th>
+                    <td>@item.Account.Balance</td>
+                    <td>@item.Type</td>
+                    <td>@item.Account.Frequency</td>
+                    <td>@item.Account.Created</td>
+                </tr>
+            }
+
+            <tr>
+                <th >Total balance: </th>
+                <th>@Model.ConnectedDispositions.Sum(d => d.Account.Balance)</th>
+
+            </tr>
+
+        </table>
+    </div>
+                }
+                else
                 {
-                    <tr>
-                        <th>@item.Account.AccountId</th>
-                        <td>@item.Account.Balance</td>
-                        <td>@item.Type</td>
-                        <td>@item.Account.Frequency</td>
-                        <td>@item.Account.Created</td>
-                    </tr>
+                <p>No accounts yet.</p>
                 }
 
-                <tr>
-                    <th>Total balance: </th>
-                    <th>@Model.ConnectedDispositions.Sum(d => d.Account.Balance)</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
 
-            </table>
-        </div>
-        </section>
+</section>
