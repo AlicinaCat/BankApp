@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Shared\Components\SearchCustomers\Default.cshtml" />
+    <Content Remove="Views\Shared\Components\Header\Default.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Views\Shared\Components\SearchCustomers\Default.cshtml" />
+    <EmbeddedResource Include="Views\Shared\Components\Header\Default.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

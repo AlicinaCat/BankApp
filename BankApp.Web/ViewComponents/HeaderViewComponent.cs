@@ -9,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace BankApp.Web.ViewComponents
 {
-    public class SearchCustomersViewComponent : ViewComponent
+    public class HeaderViewComponent : ViewComponent
     {
-        private readonly BankAppDataContext context;
-        private Customer_Queries customer_queries;
-
-        public SearchCustomersViewComponent()
+        public HeaderViewComponent()
         {
-            this.context = new BankAppDataContext();
-            this.customer_queries = new Customer_Queries(context);
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
