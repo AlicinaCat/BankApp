@@ -41,14 +41,10 @@ namespace BankApp.Web.Controllers
             model.UserInput = searchString;
             var customers = model.GetResults();
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                customers = customers.Where(s => s.Surname.Contains(searchString)
-                                       || s.Givenname.Contains(searchString));
-            }
+            ViewData["TotalResults"] = customers.ToList().Count;
 
             int pageSize = 50;
-            return View(await PaginatedList<Domain.Customer>.CreateAsync(customers.AsNoTracking(), pageNumber ?? 1, pageSize));
+            return View(await PaginatedList<Domain.Customer>.CreateAsync(customers, pageNumber ?? 1, pageSize));
         }
 
     }

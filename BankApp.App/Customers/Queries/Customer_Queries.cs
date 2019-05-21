@@ -33,11 +33,11 @@ namespace BankApp.App.Accounts.Queries
 
                 if (int.TryParse(userInput, out int result))
                 {
-                    return context.Customers.Include(c => c.Dispositions).Where(c => c.CustomerId == result);
+                    return context.Customers.Where(c => c.CustomerId == result);
                 }
                 else
                 {
-                    return context.Customers.Include(c => c.Dispositions).Where(c => c.Givenname.ToLower().Contains(userInput)
+                    return context.Customers.Where(c => c.Givenname.ToLower().Contains(userInput)
                                                 || c.Surname.ToLower().Contains(userInput)
                                                 || c.City.ToLower().Contains(userInput));
                                               

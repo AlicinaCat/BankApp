@@ -7,7 +7,7 @@
     <div class="container">
         <h1>Search results</h1>
         <div class="row col-xl-9 mx-auto">
-            <p class="font-weight-light mb-0 list-group row col-xl-9 mx-auto text-center">The results of the user input "@ViewData["CurrentFilter"]"</p>
+            <p class="font-weight-light mb-0 list-group row col-xl-9 mx-auto text-center">The search for "@ViewData["CurrentFilter"]" had @ViewData["TotalResults"] results.</p>
         </div>
         <br /><br />
         <div class="row">
@@ -26,6 +26,9 @@
 
 
         </div>
+
+        <br />
+        <br />
         <a asp-action="SearchCustomers"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
