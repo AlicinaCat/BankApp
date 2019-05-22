@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.App.Accounts.Queries
 {
-    public class Account_Queries
+    public class AccountQueriesHandler
     {
         private readonly BankAppDataContext context;
        
-        public Account_Queries(BankAppDataContext context)
+        public AccountQueriesHandler(BankAppDataContext context)
         {
             this.context = context;
         }

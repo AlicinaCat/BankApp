@@ -8,11 +8,11 @@ using System.Text;
 
 namespace BankApp.App.Dispositions.Queries
 {
-    class Disposition_Queries
+    class DispositionQueriesHandler
     {
         private readonly BankAppDataContext context;
 
-        public Disposition_Queries(BankAppDataContext context)
+        public DispositionQueriesHandler(BankAppDataContext context)
         {
             this.context = context;
         }

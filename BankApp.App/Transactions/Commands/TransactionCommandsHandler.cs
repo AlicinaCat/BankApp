@@ -4,11 +4,11 @@ using BankApp.Domain;
 
 namespace BankApp.App.Transactions.Commands
 {
-    public class Transaction_Actions
+    public class TransactionCommandsHandler
     {
         private readonly BankAppDataContext context;
 
-        public Transaction_Actions(BankAppDataContext context)
+        public TransactionCommandsHandler(BankAppDataContext context)
         {
             this.context = context;
         }

@@ -13,8 +13,8 @@ namespace Tests
     {
         DbContextOptions<BankAppDataContext> options;
         BankAppDataContext context;
-        Account_Queries account_queries;
-        Account_Actions account_actions;
+        AccountQueriesHandler account_queries;
+        AccountCommandHandler account_actions;
 
         [SetUp]
         public void Setup()
@@ -24,8 +24,8 @@ namespace Tests
                     .Options;
 
             context = new BankAppDataContext(options);
-            account_queries = new Account_Queries(context);
-            account_actions = new Account_Actions(context, account_queries);
+            account_queries = new AccountQueriesHandler(context);
+            account_actions = new AccountCommandHandler(context, account_queries);
         }
 
         [Test]

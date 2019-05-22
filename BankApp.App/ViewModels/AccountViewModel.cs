@@ -13,8 +13,8 @@ namespace BankApp.App.ViewModels
     public class AccountViewModel
     {
         private readonly BankAppDataContext context;
-        Customer_Queries customer_queries;
-        Account_Queries account_queries;
+        CustomerQueriesHandler customer_queries;
+        AccountQueriesHandler account_queries;
         public Customer Customer { get; set; }
         public Account Account { get; set; }
         public int PageNumber { get; set; }
@@ -26,8 +26,8 @@ namespace BankApp.App.ViewModels
         public AccountViewModel(int accountId, int customerId)
         {
             this.context = new BankAppDataContext();
-            this.customer_queries = new Customer_Queries(context);
-            this.account_queries = new Account_Queries(context);
+            this.customer_queries = new CustomerQueriesHandler(context);
+            this.account_queries = new AccountQueriesHandler(context);
 
             Account = account_queries.GetAccount(accountId);
             Customer = customer_queries.GetCustomer(customerId);

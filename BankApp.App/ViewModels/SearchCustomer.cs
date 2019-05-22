@@ -12,7 +12,7 @@ namespace BankApp.App.ViewModels
     public class SearchCustomer
     {
         private readonly BankAppDataContext context;
-        private Customer_Queries customer_queries;
+        private CustomerQueriesHandler customer_queries;
 
         public string UserInput { get; set; }
         public IQueryable<Customer> SearchResults { get; set; }
@@ -20,7 +20,7 @@ namespace BankApp.App.ViewModels
         public SearchCustomer()
         {
             this.context = new BankAppDataContext();
-            this.customer_queries = new Customer_Queries(context);
+            this.customer_queries = new CustomerQueriesHandler(context);
         }
 
         public IQueryable<Customer> GetResults()

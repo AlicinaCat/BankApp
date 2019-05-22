@@ -10,8 +10,8 @@ namespace BankApp.App.ViewModels
     public class IndexViewModel
     {
         private readonly BankAppDataContext context;
-        private Account_Queries Account_Queries;
-        private Customer_Queries Customer_Queries;
+        private AccountQueriesHandler Account_Queries;
+        private CustomerQueriesHandler Customer_Queries;
 
         public int TotalCustomers { get; set; }
         public int TotalAccounts { get; set; }
@@ -20,8 +20,8 @@ namespace BankApp.App.ViewModels
         public IndexViewModel()
         {
             this.context = new BankAppDataContext();
-            this.Account_Queries = new Account_Queries(context);
-            this.Customer_Queries = new Customer_Queries(context);
+            this.Account_Queries = new AccountQueriesHandler(context);
+            this.Customer_Queries = new CustomerQueriesHandler(context);
             this.TotalCustomers = Customer_Queries.GetCustomers().Count;
             this.TotalAccounts = Account_Queries.GetAllAccounts().Count;
             this.TotalBalance = Account_Queries.CalculateTotalBalance();       }           

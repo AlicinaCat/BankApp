@@ -6,22 +6,22 @@ using BankApp.Domain;
 
 namespace BankApp.App.Accounts.Commands
 {
-    public class Account_Actions
+    public class AccountCommandHandler
     {
         private readonly BankAppDataContext context;
-        private Account_Queries account_queries;
-        private Transaction_Actions transaction_actions;
+        private AccountQueriesHandler accountQueriesHandler;
+        private TransactionCommandsHandler transaction_actions;
 
-        public Account_Actions(BankAppDataContext context, Account_Queries queries)
+        public AccountCommandHandler(BankAppDataContext context, AccountQueriesHandler queries)
         {
             this.context = context;
-            this.account_queries = queries;
-            this.transaction_actions= new Transaction_Actions(context);
+            this.accountQueriesHandler = queries;
+            this.transaction_actions= new TransactionCommandsHandler(context);
         }
 
         public void Deposit(int accountId, decimal amount)
         {
-            Account account = account_queries.GetAccount(accountId);
+            Account account = accountQueriesHandler.GetAccount(accountId);
 
             account.Balance += amount;
             context.Update(account);
@@ -32,7 +32,7 @@ namespace BankApp.App.Accounts.Commands
 
         public void Withdraw(int accountId, decimal amount)
         {
-            Account account = account_queries.GetAccount(accountId);
+            Account account = accountQueriesHandler.GetAccount(accountId);
 
             account.Balance -= amount;
             context.Update(account);
