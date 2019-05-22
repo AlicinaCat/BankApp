@@ -10,8 +10,28 @@
 
             <h1>Account @Model.Account.AccountId overview</h1>
 
-            @await Html.PartialAsync("_TransactionList", Model.Account.Transactions.ToList())
+            <h3>Transactions</h3>
+            <div id="myTarget">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Balance
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <partial name="_TransactionList" model="@Model" />
+                    </tbody>
+                </table>
 
 
-        </div>
+
+            </div>
 </section>
