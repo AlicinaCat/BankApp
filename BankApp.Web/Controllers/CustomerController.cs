@@ -11,8 +11,6 @@ namespace BankApp.Web.Controllers
 {
     public class CustomerController : Controller
     {
-        
-
         public IActionResult Profile(int id)
         {
             CustomerProfile model = new CustomerProfile(id);
@@ -47,6 +45,26 @@ namespace BankApp.Web.Controllers
             return View(await PaginatedList<Domain.Customer>.CreateAsync(customers, pageNumber ?? 1, pageSize));
         }
 
+        public IActionResult CreateNewCustomer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateNewCustomer(NewCustomerViewModel model)
+        {
+            model.CreateNewCustomer();
+
+            return View();
+        }
+
+        public IActionResult EditCustomer(int id)
+        {
+            NewCustomerViewModel model = new NewCustomerViewModel();
+            
+
+            return View();
+        }
     }
 }
 

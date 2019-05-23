@@ -1,7 +1,78 @@
-﻿
+﻿@model BankApp.App.ViewModels.NewCustomerViewModel
+
 @{
-    ViewData["Title"] = "CreateNewCustomer";
+    ViewData["Title"] = "Create New Customer";
 }
 
-<h1>CreateNewCustomer</h1>
+    <section class="testimonials text-center bg-light">
+        <div class="container">
 
+
+            <h1>Create new customer</h1>
+
+            <form asp-controller="Customer" asp-action="CreateNewCustomer" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Name</label>
+                        <input asp-for="Givenname" type="text" class="form-control" id="inputEmail4" placeholder="Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Last name</label>
+                        <input asp-for="Surname" type="text" class="form-control" id="inputPassword4" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Birthdate</label>
+                        <input asp-for="Birthday" type="date" class="form-control" id="inputEmail4" placeholder="">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Gender</label>
+                        <select asp-for="Gender" id="inputState" class="form-control">
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputEmail4">Prefix</label>
+                        <input asp-for="Telephonecountrycode" type="text" class="form-control" id="inputEmail4" placeholder="(+46)">
+                    </div>
+                    <div class="form-group col-md-10">
+                        <label for="inputPassword4">Phone</label>
+                        <input asp-for="Telephonenumber" type="text" class="form-control" id="inputPassword4" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Email</label>
+                    <input asp-for="Emailaddress" type="email" class="form-control" id="inputAddress" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input asp-for="Streetaddress" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="inputCity">City</label>
+                        <input asp-for="City" type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputCity">Country</label>
+                        <input asp-for="Country" type="text" class="form-control" id="inputCountry">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputCity">Country Code</label>
+                        <input asp-for="CountryCode" type="text" class="form-control" id="inputCountry" placeholder="SE">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Zip</label>
+                        <input asp-for="Zipcode" type="text" class="form-control" id="inputZip">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+
+        </div>
+    </section>

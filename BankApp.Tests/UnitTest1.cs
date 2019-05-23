@@ -142,7 +142,7 @@ namespace Tests
         {
             int allCustomersBefore = context.Customers.CountAsync().Result;
 
-            customerCommandHandler.CreateNewCustomer("female", "Smilla", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02));
+            customerCommandHandler.CreateNewCustomer("female", "Smilla", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02), "", "", "");
 
             int allCustomerAfter = context.Customers.CountAsync().Result;
 
@@ -152,7 +152,7 @@ namespace Tests
         [Test]
         public void NewConnectedAccountIsCreated_WhenNewCustomerIsCreated()
         {
-            customerCommandHandler.CreateNewCustomer("male", "Alfie", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02));
+            customerCommandHandler.CreateNewCustomer("male", "Alfie", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02), "", "", "");
             Customer customer = customerQueriesHandler.GetCustomers().SingleOrDefault(c => c.Givenname == "Alfie" && c.Surname == "Meow");
 
             Disposition disposition = dispositionQueriesHandler.GetConnectedDispositions(customer.CustomerId).FirstOrDefault();
