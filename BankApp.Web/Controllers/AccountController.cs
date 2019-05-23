@@ -4,11 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BankApp.App.ViewModels;
+using BankApp.App.Accounts.Commands;
 
 namespace BankApp.Web.Controllers
 {
     public class AccountController : Controller
     {
+        AccountCommandHandler accountHandler;
+
+        public AccountController()
+        {
+            accountHandler = new AccountCommandHandler();
+        }
+
         public IActionResult Overview(int accountId, int customerId, int page = 1)
         {
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
@@ -35,6 +43,19 @@ namespace BankApp.Web.Controllers
             {
                 return View(model);
             };
+        }
+
+        public IActionResult Deposit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Deposit(int accountId, decimal amount)
+        {
+            accountHandler.Deposit(accountId, amount);
+
+            return View();
         }
     }
 }

@@ -12,6 +12,13 @@ namespace BankApp.App.Accounts.Commands
         private AccountQueriesHandler accountQueriesHandler;
         private TransactionCommandsHandler transaction_actions;
 
+        public AccountCommandHandler()
+        {
+            this.context = new BankAppDataContext();
+            this.accountQueriesHandler = new AccountQueriesHandler(context);
+            this.transaction_actions = new TransactionCommandsHandler(context);
+        }
+
         public AccountCommandHandler(BankAppDataContext context, AccountQueriesHandler queries)
         {
             this.context = context;
