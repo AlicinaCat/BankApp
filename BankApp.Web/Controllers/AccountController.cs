@@ -57,5 +57,30 @@ namespace BankApp.Web.Controllers
 
             return View();
         }
+
+        public IActionResult Withdraw()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Withdraw(int accountId, decimal amount)
+        {
+            accountHandler.Withdraw(accountId, amount);
+            return View();
+        }
+
+        public IActionResult Transfer()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Transfer(int accountFromId, int accountToId, decimal amount)
+        {
+            accountHandler.Transfer(accountFromId, accountToId, amount);
+
+            return View();
+        }
     }
 }

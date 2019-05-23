@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Transfer";
+}
+
+<section class="testimonials text-center bg-light">
+    <div class="container">
+
+
+        <h1>Deposit</h1>
+
+        <form asp-controller="Account" asp-action="Transfer" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Account from (id):</label>
+                <input type="number" class="form-control" name="accountFromId" style="text-align:center;" aria-describedby="emailHelp" placeholder="Enter origin Account Id...">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Account to (id):</label>
+                <input type="number" class="form-control" name="accountToId" style="text-align:center;" aria-describedby="emailHelp" placeholder="Enter destination Account Id...">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Amount:</label>
+                <input type="number" step="0.01" class="form-control" name="amount" style="text-align:center;" placeholder="Enter amount...">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+</section>
