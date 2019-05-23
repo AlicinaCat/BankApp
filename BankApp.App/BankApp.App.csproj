@@ -18,7 +18,6 @@
     <ProjectReference Include="..\BankApp.Data\BankApp.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Customers\Commands\" />
     <Folder Include="Accounts\" />
     <Folder Include="Loans\" />
     <Folder Include="PermenentOrders\" />

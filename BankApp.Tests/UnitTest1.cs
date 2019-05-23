@@ -6,6 +6,10 @@ using BankApp.Data;
 using BankApp.App.Accounts.Commands;
 using BankApp.App.Accounts.Queries;
 using Microsoft.EntityFrameworkCore;
+using BankApp.App.Customers.Commands;
+using System.Linq;
+using BankApp.App.Customers.Queries;
+using BankApp.App.Dispositions.Queries;
 
 namespace Tests
 {
@@ -13,8 +17,11 @@ namespace Tests
     {
         DbContextOptions<BankAppDataContext> options;
         BankAppDataContext context;
-        AccountQueriesHandler account_queries;
-        AccountCommandHandler account_actions;
+        AccountQueriesHandler accountQueriesHandler;
+        AccountCommandHandler accountCommandHandler;
+        CustomerCommandHandler customerCommandHandler;
+        CustomerQueriesHandler customerQueriesHandler;
+        DispositionQueriesHandler dispositionQueriesHandler;
 
         [SetUp]
         public void Setup()
@@ -24,24 +31,27 @@ namespace Tests
                     .Options;
 
             context = new BankAppDataContext(options);
-            account_queries = new AccountQueriesHandler(context);
-            account_actions = new AccountCommandHandler(context, account_queries);
+            accountQueriesHandler = new AccountQueriesHandler(context);
+            accountCommandHandler = new AccountCommandHandler(context);
+            customerCommandHandler = new CustomerCommandHandler(context);
+            customerQueriesHandler = new CustomerQueriesHandler(context);
+            dispositionQueriesHandler = new DispositionQueriesHandler(context);
         }
 
         [Test]
         public void AccountBalanceIncreased_WhenUserDeposit()
         {
-            int accountId = 1;
+            int accountId = 20;
 
             context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
             context.SaveChanges();
 
-            decimal balanceBefore = account_queries.GetAccount(accountId).Balance;
+            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
             decimal depositAmount = 1000;
 
-            account_actions.Deposit(accountId, depositAmount);
+            accountCommandHandler.Deposit(accountId, depositAmount);
 
-            decimal balanceAfter = account_queries.GetAccount(accountId).Balance;
+            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
 
             Assert.Greater(balanceAfter, balanceBefore);
         }
@@ -49,17 +59,17 @@ namespace Tests
         [Test]
         public void AccountBalanceDecreased_WhenUserWithdraws()
         {
-            int accountId = 2;
+            int accountId = 30;
 
             context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
             context.SaveChanges();
 
-            decimal balanceBefore = account_queries.GetAccount(accountId).Balance;
+            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
             decimal withdrawalAmount = 1000;
 
-            account_actions.Withdraw(accountId, withdrawalAmount);
+            accountCommandHandler.Withdraw(accountId, withdrawalAmount);
 
-            decimal balanceAfter = account_queries.GetAccount(accountId).Balance;
+            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
 
             Assert.Less(balanceAfter, balanceBefore);
         }
@@ -67,17 +77,17 @@ namespace Tests
         [Test]
         public void MoneyIsExchangedBetweenAccounts_WhenUserTransfers()
         {
-            int accountFromId = 1;
-            int accountToId = 2;
+            int accountFromId = 20;
+            int accountToId = 30;
 
-            decimal balanceFromBefore = account_queries.GetAccount(accountFromId).Balance;
-            decimal balanceToBefore = account_queries.GetAccount(accountToId).Balance;
+            decimal balanceFromBefore = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal balanceToBefore = accountQueriesHandler.GetAccount(accountToId).Balance;
             decimal transferAmount = 100;
 
-            account_actions.Transfer(accountFromId, accountToId, transferAmount);
+            accountCommandHandler.Transfer(accountFromId, accountToId, transferAmount);
 
-            decimal balanceFromAfter = account_queries.GetAccount(accountFromId).Balance;
-            decimal balanceToAfter = account_queries.GetAccount(accountToId).Balance;
+            decimal balanceFromAfter = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal balanceToAfter = accountQueriesHandler.GetAccount(accountToId).Balance;
 
             Assert.Less(balanceFromAfter, balanceFromBefore);
             Assert.Greater(balanceToAfter, balanceToBefore);
@@ -87,10 +97,10 @@ namespace Tests
         public void TransactionIsCreated_WhenUserDeposits()
         {
             int allTransactionsBefore = context.Transactions.CountAsync().Result;
-            int accountId = 1;
+            int accountId = 20;
             decimal depositAmount = 100;
 
-            account_actions.Deposit(accountId, depositAmount);
+            accountCommandHandler.Deposit(accountId, depositAmount);
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 
@@ -101,10 +111,10 @@ namespace Tests
         public void TransactionIsCreated_WhenUserWithdraws()
         {
             int allTransactionsBefore = context.Transactions.CountAsync().Result;
-            int accountId = 1;
+            int accountId = 20;
             decimal withdrawalAmount = 100;
 
-            account_actions.Withdraw(accountId, withdrawalAmount);
+            accountCommandHandler.Withdraw(accountId, withdrawalAmount);
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 
@@ -116,15 +126,38 @@ namespace Tests
         {
             int allTransactionsBefore = context.Transactions.CountAsync().Result;
 
-            int accountFromId = 1;
-            int accountToId = 2;
+            int accountFromId = 20;
+            int accountToId = 30;
             decimal transferAmount = 100;
 
-            account_actions.Transfer(accountFromId, accountToId, transferAmount);
+            accountCommandHandler.Transfer(accountFromId, accountToId, transferAmount);
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 
             Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 2);
+        }
+
+        [Test]
+        public void NewCustomerIsCreated_WhenUserCreatesCustomer()
+        {
+            int allCustomersBefore = context.Customers.CountAsync().Result;
+
+            customerCommandHandler.CreateNewCustomer("female", "Smilla", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02));
+
+            int allCustomerAfter = context.Customers.CountAsync().Result;
+
+            Assert.AreEqual(allCustomerAfter, allCustomersBefore + 1);
+        }
+
+        [Test]
+        public void NewConnectedAccountIsCreated_WhenNewCustomerIsCreated()
+        {
+            customerCommandHandler.CreateNewCustomer("male", "Alfie", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02));
+            Customer customer = customerQueriesHandler.GetCustomers().SingleOrDefault(c => c.Givenname == "Alfie" && c.Surname == "Meow");
+
+            Disposition disposition = dispositionQueriesHandler.GetConnectedDispositions(customer.CustomerId).FirstOrDefault();
+
+            Assert.IsNotNull(disposition);
         }
     }
 }

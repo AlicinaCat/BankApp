@@ -10,20 +10,20 @@ namespace BankApp.App.Accounts.Commands
     {
         private readonly BankAppDataContext context;
         private AccountQueriesHandler accountQueriesHandler;
-        private TransactionCommandsHandler transaction_actions;
+        private TransactionCommandsHandler transactionCommandsHandler;
 
         public AccountCommandHandler()
         {
             this.context = new BankAppDataContext();
             this.accountQueriesHandler = new AccountQueriesHandler(context);
-            this.transaction_actions = new TransactionCommandsHandler(context);
+            this.transactionCommandsHandler = new TransactionCommandsHandler(context);
         }
 
-        public AccountCommandHandler(BankAppDataContext context, AccountQueriesHandler queries)
+        public AccountCommandHandler(BankAppDataContext context)
         {
             this.context = context;
-            this.accountQueriesHandler = queries;
-            this.transaction_actions= new TransactionCommandsHandler(context);
+            this.accountQueriesHandler = new AccountQueriesHandler(context);
+            this.transactionCommandsHandler= new TransactionCommandsHandler(context);
         }
 
         public void Deposit(int accountId, decimal amount)
@@ -34,7 +34,7 @@ namespace BankApp.App.Accounts.Commands
             context.Update(account);
             context.SaveChanges();
 
-            transaction_actions.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
+            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
         }
 
         public void Withdraw(int accountId, decimal amount)
@@ -45,7 +45,7 @@ namespace BankApp.App.Accounts.Commands
             context.Update(account);
             context.SaveChanges();
 
-            transaction_actions.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
+            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
 
             // TODO - send negative amount in withdrawal
         }
@@ -54,6 +54,21 @@ namespace BankApp.App.Accounts.Commands
         {
             Withdraw(accountFromId, amount);
             Deposit(accountToId, amount);
+        }
+
+        public int CreateNewAccount()
+        {
+            Account account = new Account()
+            {
+                Frequency = "Monthly",
+                Created = DateTime.Now,
+                Balance = 0
+            };
+
+            context.Add(account);
+            context.SaveChanges();
+
+            return account.AccountId;
         }
     }
 }
