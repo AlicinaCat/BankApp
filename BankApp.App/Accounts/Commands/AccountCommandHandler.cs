@@ -23,37 +23,58 @@ namespace BankApp.App.Accounts.Commands
         {
             this.context = context;
             this.accountQueriesHandler = new AccountQueriesHandler(context);
-            this.transactionCommandsHandler= new TransactionCommandsHandler(context);
+            this.transactionCommandsHandler = new TransactionCommandsHandler(context);
         }
 
-        public void Deposit(int accountId, decimal amount)
+        public int Deposit(int accountId, decimal amount)
+        {
+            if (amount > 0)
+            {
+                Account account = accountQueriesHandler.GetAccount(accountId);
+
+                account.Balance += amount;
+                context.Update(account);
+                context.SaveChanges();
+
+                transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
+
+                return 1;
+            }
+
+            return -1;
+        }
+
+        public int Withdraw(int accountId, decimal amount)
         {
             Account account = accountQueriesHandler.GetAccount(accountId);
 
-            account.Balance += amount;
-            context.Update(account);
-            context.SaveChanges();
+            if (amount <= account.Balance && amount > 0)
+            {
+                account.Balance -= amount;
+                context.Update(account);
+                context.SaveChanges();
 
-            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
-        }
+                transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
 
-        public void Withdraw(int accountId, decimal amount)
-        {
-            Account account = accountQueriesHandler.GetAccount(accountId);
+                return 1;
+            }
 
-            account.Balance -= amount;
-            context.Update(account);
-            context.SaveChanges();
-
-            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
+            return -1;
 
             // TODO - send negative amount in withdrawal
         }
 
-        public void Transfer(int accountFromId, int accountToId, decimal amount)
+        public int Transfer(int accountFromId, int accountToId, decimal amount)
         {
-            Withdraw(accountFromId, amount);
-            Deposit(accountToId, amount);
+            int result = Withdraw(accountFromId, amount);
+
+            if (result == 1)
+            {
+                Deposit(accountToId, amount);
+                return 1;
+            }
+
+            return -1;
         }
 
         public int CreateNewAccount()

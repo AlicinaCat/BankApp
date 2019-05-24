@@ -159,5 +159,111 @@ namespace Tests
 
             Assert.IsNotNull(disposition);
         }
+
+        [Test]
+        public void WithdrawalFails_WhenBalanceIsTooSmall()
+        {
+            int accountId = 209;
+
+            context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+            context.SaveChanges();
+
+            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+            decimal withdrawalAmount = 3000;
+
+            accountCommandHandler.Withdraw(accountId, withdrawalAmount);
+
+            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+
+            Assert.AreEqual(balanceAfter, balanceBefore);
+        }
+
+        [Test]
+        public void TransferFails_WhenBalanceIsTooSmall()
+        {
+            int accountFromId = 210;
+
+            context.Accounts.Add(new Account { AccountId = accountFromId, Balance = 2000 });
+            context.SaveChanges();
+
+            int accountToId = 211;
+
+            context.Accounts.Add(new Account { AccountId = accountToId, Balance = 1000 });
+            context.SaveChanges();
+
+            decimal accountFromBalanceBefore = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal accountToBalanceBefore = accountQueriesHandler.GetAccount(accountToId).Balance;
+            decimal transferAmount = 3000;
+
+            accountCommandHandler.Transfer(accountFromId, accountToId, transferAmount);
+
+            decimal accountFromBalanceAfter = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal accountToBalanceAfter = accountQueriesHandler.GetAccount(accountToId).Balance;
+
+            Assert.AreEqual(accountFromBalanceAfter, accountFromBalanceBefore);
+            Assert.AreEqual(accountToBalanceAfter, accountToBalanceBefore);
+        }
+
+        [Test]
+        public void DepositFails_WhenAmountIsNegative()
+        {
+            int accountId = 300;
+
+            context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+            context.SaveChanges();
+
+            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+            decimal depositAmount = -30;
+
+            accountCommandHandler.Deposit(accountId, depositAmount);
+
+            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+
+            Assert.AreEqual(balanceAfter, balanceBefore);
+        }
+
+        [Test]
+        public void WithdrawalFails_WhenAmountIsNegative()
+        {
+            int accountId = 301;
+
+            context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+            context.SaveChanges();
+
+            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+            decimal withdrawalAmount = -30;
+
+            accountCommandHandler.Withdraw(accountId, withdrawalAmount);
+
+            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+
+            Assert.AreEqual(balanceAfter, balanceBefore);
+        }
+
+        [Test]
+        public void TransferFails_WhenAmountIsNegative()
+        {
+            int accountFromId = 310;
+
+            context.Accounts.Add(new Account { AccountId = accountFromId, Balance = 2000 });
+            context.SaveChanges();
+
+            int accountToId = 311;
+
+            context.Accounts.Add(new Account { AccountId = accountToId, Balance = 1000 });
+            context.SaveChanges();
+
+            decimal accountFromBalanceBefore = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal accountToBalanceBefore = accountQueriesHandler.GetAccount(accountToId).Balance;
+            decimal transferAmount = -30;
+
+            accountCommandHandler.Transfer(accountFromId, accountToId, transferAmount);
+
+            decimal accountFromBalanceAfter = accountQueriesHandler.GetAccount(accountFromId).Balance;
+            decimal accountToBalanceAfter = accountQueriesHandler.GetAccount(accountToId).Balance;
+
+            Assert.AreEqual(accountFromBalanceAfter, accountFromBalanceBefore);
+            Assert.AreEqual(accountToBalanceAfter, accountToBalanceBefore);
+        }
     }
 }
