@@ -24,11 +24,13 @@ namespace BankApp.App.ViewModels
         public string Emailaddress { get; set; }
         private readonly BankAppDataContext context;
         CustomerCommandHandler customerCommandHandler;
+        CustomerQueriesHandler customerQueriesHandler;
 
         public NewCustomerViewModel()
         {
             this.context = new BankAppDataContext();
             this.customerCommandHandler = new CustomerCommandHandler(context);
+            this.customerQueriesHandler = new CustomerQueriesHandler(context);
         }
 
         public void CreateNewCustomer()

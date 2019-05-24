@@ -60,10 +60,17 @@ namespace BankApp.Web.Controllers
 
         public IActionResult EditCustomer(int id)
         {
-            NewCustomerViewModel model = new NewCustomerViewModel();
-            
+            EditCustomerViewModel model = new EditCustomerViewModel(id);
 
-            return View();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditCustomer(EditCustomerViewModel model)
+        {
+            model.SaveChanges();
+
+            return View(model);
         }
     }
 }
