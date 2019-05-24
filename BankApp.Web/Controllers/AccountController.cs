@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BankApp.App.ViewModels;
 using BankApp.App.Accounts.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankApp.Web.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         AccountCommandHandler accountHandler;

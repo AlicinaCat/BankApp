@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankApp.App.ViewModels;
 using BankApp.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.Web.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         public IActionResult Profile(int id)

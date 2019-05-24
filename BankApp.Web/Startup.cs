@@ -31,7 +31,7 @@ namespace BankApp.Web
         {
 
             services.AddDbContext<BankAppDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            services.AddDefaultIdentity<User>(options =>
+            services.AddIdentity<Domain.User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireLowercase = false;
@@ -41,7 +41,11 @@ namespace BankApp.Web
             }
             ).AddEntityFrameworkStores<BankAppDataContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/user/login";
+                options.LogoutPath = $"/user/logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +62,7 @@ namespace BankApp.Web
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }

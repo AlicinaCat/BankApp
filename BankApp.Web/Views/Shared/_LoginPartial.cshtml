@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Domain.User> signInManager
+@inject UserManager<Domain.User> userManager
+
+@if (!signInManager.IsSignedIn(User))
+
+{
+    <a class="btn btn-primary" href="/User/Login">Sign In</a>
+    <a class="btn btn-primary" href="/User/Register">Sign Up</a>
+}
+else
+{
+    <a class="btn btn-primary" href="/User/LogOut">Sign Out</a>
+}

@@ -7,11 +7,13 @@ using BankApp.Domain;
 using BankApp.App.ViewModels;
 using BankApp.App;
 using BankApp.App.Accounts.Queries;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankApp.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         // GET: /<controller>/
         public IActionResult Index()
         {
