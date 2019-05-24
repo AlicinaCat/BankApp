@@ -53,7 +53,16 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Deposit(int accountId, decimal amount)
         {
-            accountHandler.Deposit(accountId, amount);
+            int result = accountHandler.Deposit(accountId, amount);
+
+            if (result == 1)
+            {
+                TempData["success"] = "Deposit executed successfully.";
+            }
+            else
+            {
+                TempData["error"] = "Deposit was unsuccessful. Please check that amount and account Id are correct.";
+            }
 
             return View();
         }
@@ -66,7 +75,16 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Withdraw(int accountId, decimal amount)
         {
-            accountHandler.Withdraw(accountId, amount);
+            int result = accountHandler.Withdraw(accountId, amount);
+
+            if (result == 1)
+            {
+                TempData["success"] = "Withdrawal executed successfully.";
+            }
+            else
+            {
+                TempData["error"] = "Withdrawal was unsuccessful. Please check that amount and account Id are correct.";
+            }
             return View();
         }
 
@@ -78,7 +96,16 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Transfer(int accountFromId, int accountToId, decimal amount)
         {
-            accountHandler.Transfer(accountFromId, accountToId, amount);
+            int result = accountHandler.Transfer(accountFromId, accountToId, amount);
+
+            if (result == 1)
+            {
+                TempData["success"] = "Transfer executed successfully.";
+            }
+            else
+            {
+                TempData["error"] = "Transfer was unsuccessful. Please check that amount and account Id are correct.";
+            }
 
             return View();
         }
