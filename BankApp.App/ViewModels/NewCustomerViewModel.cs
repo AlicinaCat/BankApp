@@ -33,9 +33,9 @@ namespace BankApp.App.ViewModels
             this.customerQueriesHandler = new CustomerQueriesHandler(context);
         }
 
-        public void CreateNewCustomer()
+        public int CreateNewCustomer()
         {
-            customerCommandHandler.CreateNewCustomer(Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode, Birthday, Telephonecountrycode, Telephonenumber, Emailaddress);
+            return customerCommandHandler.CreateNewCustomer(Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode, Birthday, Telephonecountrycode, Telephonenumber, Emailaddress);
         }
     }
 }

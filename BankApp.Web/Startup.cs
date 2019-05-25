@@ -45,6 +45,7 @@ namespace BankApp.Web
             {
                 options.LoginPath = $"/user/login";
                 options.LogoutPath = $"/user/logout";
+                options.AccessDeniedPath = "/home/index";
             });
         }
 

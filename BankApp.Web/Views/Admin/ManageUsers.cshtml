@@ -31,8 +31,7 @@
                             <form asp-controller="Admin" asp-action="ManageUsers" method="post">
                                 <input type="hidden" name="userId" value="@item.User.Id" />
                                 <input class="form-check-input" name="isAdmin"
-                                       type="checkbox" id="defaultCheck1" value="@item.IsAdmin" checked="@item.IsAdmin">
-                                <input type="submit" value="Save" class="btn btn-primary btn-sm">
+                                       type="checkbox" id="defaultCheck1" onchange="this.form.submit()" value="@item.IsAdmin" checked="@item.IsAdmin">
                             </form>
                         </td>
                     </tr>

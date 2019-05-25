@@ -18,7 +18,7 @@ namespace BankApp.App.Customers.Commands
             dispositionCommandHandler = new DispositionCommandHandler(context);
         }
 
-        public void CreateNewCustomer(string gender, string givenName, string surname, string streetAddress, string city, string Zipcode, string country, string countryCode, DateTime birthDate,
+        public int CreateNewCustomer(string gender, string givenName, string surname, string streetAddress, string city, string Zipcode, string country, string countryCode, DateTime birthDate,
                                         string telephoneCountryCode, string telephoneNumber, string emailAddress)
         {
             Customer customer = new Customer()
@@ -41,6 +41,8 @@ namespace BankApp.App.Customers.Commands
             context.SaveChanges();
 
             dispositionCommandHandler.CreateNewDisposition(customer.CustomerId);
+
+            return customer.CustomerId;
         }
     }
 }

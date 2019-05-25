@@ -55,9 +55,9 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult CreateNewCustomer(NewCustomerViewModel model)
         {
-            model.CreateNewCustomer();
+            int id = model.CreateNewCustomer();
 
-            return View();
+            return RedirectToAction("Profile", new { id = id});
         }
 
         public IActionResult EditCustomer(int id)

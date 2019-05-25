@@ -4,20 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankApp.App.ViewModels;
 using BankApp.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private UserManager<Domain.User> UserManager;
-        private readonly BankAppDataContext context;
 
         public AdminController(UserManager<Domain.User> userManager)
         {
             this.UserManager = userManager;
-            this.context = new BankAppDataContext();
         }
 
         public async Task<IActionResult> ManageUsers()
@@ -45,12 +45,9 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUsers(bool isAdmin, string userId)
         {
-            //if (ModelState.IsValid)
-            //{
-            Domain.User user = await UserManager.FindByIdAsync(userId);
+                Domain.User user = await UserManager.FindByIdAsync(userId);
 
             if (isAdmin)
             {
@@ -73,11 +70,9 @@ namespace BankApp.Web.Controllers
                 {
                     await UserManager.AddToRoleAsync(user, "Admin");
                 }
-
             }
-            //}
 
-            return Ok();
+            return RedirectToAction("ManageUsers");
         }
     }
 }

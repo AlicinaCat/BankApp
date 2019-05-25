@@ -14,17 +14,17 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Name</label>
-                        <input asp-for="Givenname" type="text" class="form-control" id="inputEmail4" placeholder="Name">
+                        <input asp-for="Givenname" type="text" class="form-control" id="inputEmail4" required placeholder="Name">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4">Last name</label>
-                        <input asp-for="Surname" type="text" class="form-control" id="inputPassword4" placeholder="Last name">
+                        <input asp-for="Surname" type="text" class="form-control" id="inputPassword4" required placeholder="Last name">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Birthdate</label>
-                        <input asp-for="Birthday" type="date" class="form-control" id="inputEmail4" placeholder="">
+                        <input asp-for="Birthday" type="date" class="form-control" id="inputEmail4" required placeholder="">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4">Gender</label>
@@ -51,24 +51,24 @@
                 </div>
                 <div class="form-group">
                     <label for="inputAddress">Address</label>
-                    <input asp-for="Streetaddress" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    <input asp-for="Streetaddress" type="text" class="form-control" id="inputAddress" required placeholder="1234 Main St">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="inputCity">City</label>
-                        <input asp-for="City" type="text" class="form-control" id="inputCity">
+                        <input asp-for="City" type="text" class="form-control" required id="inputCity">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="inputCity">Country</label>
-                        <input asp-for="Country" type="text" class="form-control" id="inputCountry">
+                        <input asp-for="Country" type="text" class="form-control" required id="inputCountry">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputCity">Country Code</label>
-                        <input asp-for="CountryCode" type="text" class="form-control" id="inputCountry" placeholder="SE">
+                        <input asp-for="CountryCode" type="text" class="form-control" required id="inputCountry" placeholder="SE">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputZip">Zip</label>
-                        <input asp-for="Zipcode" type="text" class="form-control" id="inputZip">
+                        <input asp-for="Zipcode" type="text" class="form-control" required id="inputZip">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
