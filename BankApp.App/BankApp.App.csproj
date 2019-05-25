@@ -32,5 +32,6 @@
     <Folder Include="PermenentOrders\Queries\" />
     <Folder Include="Transactions\Commands\" />
     <Folder Include="Transactions\Queries\" />
+    <Folder Include="Users\Commands\" />
   </ItemGroup>
 </Project>

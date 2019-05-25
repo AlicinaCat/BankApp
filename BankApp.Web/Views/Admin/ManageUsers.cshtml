@@ -1,0 +1,46 @@
+﻿@model BankApp.App.ViewModels.ManageUsersViewModel
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<section class="testimonials text-center bg-light">
+    <div class="container">
+
+        <h1>Manage users</h1>
+
+        <div class="row">
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Admin</th>
+                    </tr>
+                </thead>
+
+                @foreach (var item in Model.UsersWithRoles)
+                {
+                    <tr>
+                        <th>
+                            @item.User.Id
+                        </th>
+                        <td>@item.User.UserName</td>
+                        <td>
+                            <form asp-controller="Admin" asp-action="ManageUsers" method="post">
+                                <input type="hidden" name="userId" value="@item.User.Id" />
+                                <input class="form-check-input" name="isAdmin"
+                                       type="checkbox" id="defaultCheck1" value="@item.IsAdmin" checked="@item.IsAdmin">
+                                <input type="submit" value="Save" class="btn btn-primary btn-sm">
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+    </div>
+
+</section>
+

@@ -7,6 +7,9 @@ namespace BankApp.Domain
 {
     public class User : IdentityUser
     {
-
+        public User ToList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
