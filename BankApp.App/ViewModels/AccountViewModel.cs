@@ -35,7 +35,7 @@ namespace BankApp.App.ViewModels
 
         public List<Transaction> GetTransactionPage(int take, int skip)
         {
-            return Account.Transactions.Skip(skip).Take(take).ToList();
+            return Account.Transactions.OrderByDescending(t => t.Date).Skip(skip).Take(take).ToList();
         }
     }
 }

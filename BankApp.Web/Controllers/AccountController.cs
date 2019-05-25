@@ -23,7 +23,7 @@ namespace BankApp.Web.Controllers
         {
             var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
-            const int pageSize = 10;
+            const int pageSize = 20;
 
             AccountViewModel model = new AccountViewModel(accountId, customerId);
 

@@ -29,7 +29,7 @@ namespace BankApp.App.Customers.Queries
         public IQueryable<Customer> SearchCustomers(string userInput)
         {
 
-                userInput = userInput.ToLower();
+                userInput = userInput.ToLower().Trim().Replace(" ", String.Empty);
 
                 if (int.TryParse(userInput, out int result))
                 {
@@ -37,9 +37,7 @@ namespace BankApp.App.Customers.Queries
                 }
                 else
                 {
-                    return context.Customers.Where(c => c.Givenname.ToLower().Contains(userInput)
-                                                || c.Surname.ToLower().Contains(userInput)
-                                                || c.City.ToLower().Contains(userInput));
+                return context.Customers.Where(c => (c.Givenname + c.Surname + c.City).ToLower().Contains(userInput) || (c.Givenname + c.City).ToLower().Contains(userInput));
                                               
                 }
             
