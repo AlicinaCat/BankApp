@@ -11,6 +11,11 @@ namespace BankApp.App.Customers.Queries
     {
         private readonly BankAppDataContext context;
 
+        public CustomerQueriesHandler()
+        {
+            this.context = new BankAppDataContext();
+        }
+
         public CustomerQueriesHandler(BankAppDataContext context)
         {
             this.context = context;

@@ -21,7 +21,6 @@
     <Folder Include="Accounts\" />
     <Folder Include="Loans\" />
     <Folder Include="PermenentOrders\" />
-    <Folder Include="Transactions\" />
     <Folder Include="Accounts\Commands\" />
     <Folder Include="Accounts\Queries\" />
     <Folder Include="Cards\Commands\" />
@@ -31,7 +30,6 @@
     <Folder Include="PermenentOrders\Commands\" />
     <Folder Include="PermenentOrders\Queries\" />
     <Folder Include="Transactions\Commands\" />
-    <Folder Include="Transactions\Queries\" />
     <Folder Include="Users\Commands\" />
   </ItemGroup>
 </Project>

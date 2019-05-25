@@ -10,7 +10,12 @@ namespace BankApp.App.Accounts.Queries
     public class AccountQueriesHandler
     {
         private readonly BankAppDataContext context;
-       
+
+        public AccountQueriesHandler()
+        {
+            this.context = new BankAppDataContext();
+        }
+
         public AccountQueriesHandler(BankAppDataContext context)
         {
             this.context = context;
