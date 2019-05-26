@@ -8,32 +8,49 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BankApp.App.Transactions.Queries;
 using BankApp.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankApp.Web.Controllers
 {
-    [Route("api/accounts/")]
+    [Route("api/")]
     [ApiController]
     public class WebAPIController : ControllerBase
     {
         private AccountQueriesHandler accountQueriesHandler;
         private TransactionQueryHandler transactionQueryHandler;
+        private CustomerQueriesHandler customerQueriesHandler;
 
         public WebAPIController()
         {
             accountQueriesHandler = new AccountQueriesHandler();
             transactionQueryHandler = new TransactionQueryHandler();
+            customerQueriesHandler = new CustomerQueriesHandler();
         }
 
         [HttpGet()]
+        [Route("accounts/")]
         public ActionResult<IEnumerable<Domain.Account>> Get()
         {
             return accountQueriesHandler.GetAllAccounts();
         }
 
-        [HttpGet("{id}/{page}")]
+        [HttpGet("accounts/{id}/{page}")]
         public ActionResult<IEnumerable<Transaction>> GetById(int id, int page)
         {
             return transactionQueryHandler.GetTransactionsByAccount(id, page);
+        }
+
+        [HttpGet("me")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult/*<Domain.Customer>*/ GetCustomerProfile(int id)
+        {
+                var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+                if (idClaim != null)
+                {
+                    return Ok($"This is your Id: {idClaim.Value}");
+                }
+                return BadRequest("No claim");
+                //return customerQueriesHandler.GetCustomer(id);
         }
     }
 }
