@@ -22,7 +22,7 @@ namespace BankApp.App.ViewModels
             this.context = new BankAppDataContext();
             this.Account_Queries = new AccountQueriesHandler(context);
             this.Customer_Queries = new CustomerQueriesHandler(context);
-            this.TotalCustomers = Customer_Queries.GetCustomers().Count;
+            this.TotalCustomers = Customer_Queries.GetCustomersList().Count;
             this.TotalAccounts = Account_Queries.GetAllAccounts().Count;
             this.TotalBalance = Account_Queries.CalculateTotalBalance();       }           
     }

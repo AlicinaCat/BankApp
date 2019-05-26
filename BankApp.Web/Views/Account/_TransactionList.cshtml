@@ -4,7 +4,7 @@
 {
     <tr>
         <td>
-            @transaction.Date
+            @transaction.Date.ToShortDateString()
         </td>
         <td>
             @transaction.TransactionId
@@ -13,12 +13,15 @@
             @transaction.Amount kr
         </td>
         <td>
+            @transaction.Type
+        </td>
+        <td>
             @transaction.Balance kr
         </td>
     </tr>
 }
 <tr id="buttonRow">
-    <td colspan="4" align="center">
+    <td colspan="5" align="center">
         @if (Model.CanShowMore)
         {
             <div id="spinner" class="spinner-border" style="display: none;" role="status">

@@ -43,17 +43,32 @@ namespace Tests
         {
             int accountId = 20;
 
-            context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
-            context.SaveChanges();
+            options = new DbContextOptionsBuilder<BankAppDataContext>()
+                        .UseInMemoryDatabase(databaseName: "TestingDb")
+                        .Options;
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
-            decimal depositAmount = 1000;
+                context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+                context.SaveChanges();
+            }
 
-            accountCommandHandler.Deposit(accountId, depositAmount);
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+                decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+                decimal depositAmount = 1000;
 
-            Assert.Greater(balanceAfter, balanceBefore);
+                accountCommandHandler.Deposit(accountId, depositAmount);
+
+                decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+
+                Assert.Greater(balanceAfter, balanceBefore);
+            }
         }
 
         [Test]
@@ -61,17 +76,32 @@ namespace Tests
         {
             int accountId = 30;
 
-            context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
-            context.SaveChanges();
+            options = new DbContextOptionsBuilder<BankAppDataContext>()
+            .UseInMemoryDatabase(databaseName: "TestingDb")
+            .Options;
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
-            decimal withdrawalAmount = 1000;
+                context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+                context.SaveChanges();
+            }
 
-            accountCommandHandler.Withdraw(accountId, withdrawalAmount);
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+                decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+                decimal withdrawalAmount = 1000;
 
-            Assert.Less(balanceAfter, balanceBefore);
+                accountCommandHandler.Withdraw(accountId, withdrawalAmount);
+
+                decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+
+                Assert.Less(balanceAfter, balanceBefore);
+            }
         }
 
         [Test]
@@ -153,7 +183,7 @@ namespace Tests
         public void NewConnectedAccountIsCreated_WhenNewCustomerIsCreated()
         {
             customerCommandHandler.CreateNewCustomer("male", "Alfie", "Meow", "Meow street 4", "Meow city", "12345", "Meowland", "MW", new System.DateTime(2013, 05, 02), "", "", "");
-            Customer customer = customerQueriesHandler.GetCustomers().SingleOrDefault(c => c.Givenname == "Alfie" && c.Surname == "Meow");
+            Customer customer = customerQueriesHandler.GetCustomersList().SingleOrDefault(c => c.Givenname == "Alfie" && c.Surname == "Meow");
 
             Disposition disposition = dispositionQueriesHandler.GetConnectedDispositions(customer.CustomerId).FirstOrDefault();
 

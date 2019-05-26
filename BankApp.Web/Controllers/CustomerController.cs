@@ -55,9 +55,14 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult CreateNewCustomer(NewCustomerViewModel model)
         {
-            int id = model.CreateNewCustomer();
+            if (ModelState.IsValid)
+            {
+                int id = model.CreateNewCustomer();
 
-            return RedirectToAction("Profile", new { id = id});
+                return RedirectToAction("Profile", new { id = id });
+            }
+
+            return View();
         }
 
         public IActionResult EditCustomer(int id)
@@ -70,7 +75,13 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult EditCustomer(EditCustomerViewModel model)
         {
-            model.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                model.SaveChanges();
+                return RedirectToAction("Profile", new { id = model.Customer.CustomerId });
+            }
+
+            TempData["error"] = "Something went wrong. Please check that all the fields are correct and try again.";
 
             return View(model);
         }

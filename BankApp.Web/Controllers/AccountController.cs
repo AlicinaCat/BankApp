@@ -55,16 +55,20 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Deposit(int accountId, decimal amount)
         {
-            int result = accountHandler.Deposit(accountId, amount);
+            if (ModelState.IsValid)
+            {
+                int result = accountHandler.Deposit(accountId, amount);
 
-            if (result == 1)
-            {
-                TempData["success"] = "Deposit executed successfully.";
+                if (result == 1)
+                {
+                    TempData["success"] = "Deposit executed successfully.";
+
+                    return View();
+                }
             }
-            else
-            {
-                TempData["error"] = "Deposit was unsuccessful. Please check that amount and account Id are correct.";
-            }
+
+            TempData["error"] = "Deposit was unsuccessful. Please check that amount and account Id are correct.";
+
 
             return View();
         }
@@ -77,16 +81,20 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Withdraw(int accountId, decimal amount)
         {
-            int result = accountHandler.Withdraw(accountId, amount);
+            if (ModelState.IsValid)
+            {
+                int result = accountHandler.Withdraw(accountId, amount);
 
-            if (result == 1)
-            {
-                TempData["success"] = "Withdrawal executed successfully.";
+                if (result == 1)
+                {
+                    TempData["success"] = "Withdrawal executed successfully.";
+
+                    return View();
+                }
             }
-            else
-            {
-                TempData["error"] = "Withdrawal was unsuccessful. Please check that amount and account Id are correct.";
-            }
+
+            TempData["error"] = "Withdrawal was unsuccessful. Please check that amount and account Id are correct.";
+
             return View();
         }
 
@@ -98,16 +106,20 @@ namespace BankApp.Web.Controllers
         [HttpPost]
         public IActionResult Transfer(int accountFromId, int accountToId, decimal amount)
         {
-            int result = accountHandler.Transfer(accountFromId, accountToId, amount);
+            if (ModelState.IsValid)
+            {
+                int result = accountHandler.Transfer(accountFromId, accountToId, amount);
 
-            if (result == 1)
-            {
-                TempData["success"] = "Transfer executed successfully.";
+                if (result == 1)
+                {
+                    TempData["success"] = "Transfer executed successfully.";
+
+                    return View();
+                }
             }
-            else
-            {
-                TempData["error"] = "Transfer was unsuccessful. Please check that amount and account Id are correct.";
-            }
+
+            TempData["error"] = "Transfer was unsuccessful. Please check that amount and account Id are correct.";
+            
 
             return View();
         }

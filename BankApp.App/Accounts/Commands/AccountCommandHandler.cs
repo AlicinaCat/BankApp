@@ -32,13 +32,16 @@ namespace BankApp.App.Accounts.Commands
             {
                 Account account = accountQueriesHandler.GetAccount(accountId);
 
-                account.Balance += amount;
-                context.Update(account);
-                context.SaveChanges();
+                if (account != null)
+                {
+                    account.Balance += amount;
+                    context.Update(account);
+                    context.SaveChanges();
 
-                transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
+                    transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Deposit", "Credit");
 
-                return 1;
+                    return 1;
+                }
             }
 
             return -1;
@@ -48,15 +51,19 @@ namespace BankApp.App.Accounts.Commands
         {
             Account account = accountQueriesHandler.GetAccount(accountId);
 
-            if (amount <= account.Balance && amount > 0)
+            if (account != null)
             {
-                account.Balance -= amount;
-                context.Update(account);
-                context.SaveChanges();
 
-                transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
+                if (amount <= account.Balance && amount > 0)
+                {
+                    account.Balance -= amount;
+                    context.Update(account);
+                    context.SaveChanges();
 
-                return 1;
+                    transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
+
+                    return 1;
+                }
             }
 
             return -1;
@@ -66,12 +73,22 @@ namespace BankApp.App.Accounts.Commands
 
         public int Transfer(int accountFromId, int accountToId, decimal amount)
         {
-            int result = Withdraw(accountFromId, amount);
+            Account accountFrom = accountQueriesHandler.GetAccount(accountFromId);
+            Account accountTo = accountQueriesHandler.GetAccount(accountToId);
 
-            if (result == 1)
+            if (accountTo != null && accountFrom != null)
             {
-                Deposit(accountToId, amount);
-                return 1;
+                int result = Withdraw(accountFromId, amount);
+
+                if (result == 1)
+                {
+                    result = Deposit(accountToId, amount);
+
+                    if (result == 1)
+                    {
+                        return 1;
+                    }
+                }
             }
 
             return -1;

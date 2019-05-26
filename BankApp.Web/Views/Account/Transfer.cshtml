@@ -11,15 +11,15 @@
         <form asp-controller="Account" asp-action="Transfer" method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Account from (id):</label>
-                <input type="number" class="form-control" name="accountFromId" style="text-align:center;" aria-describedby="emailHelp" placeholder="Enter origin Account Id...">
+                <input type="number" class="form-control" name="accountFromId" style="text-align:center;" required aria-describedby="emailHelp" placeholder="Enter origin Account Id...">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Account to (id):</label>
-                <input type="number" class="form-control" name="accountToId" style="text-align:center;" aria-describedby="emailHelp" placeholder="Enter destination Account Id...">
+                <input type="number" class="form-control" name="accountToId" style="text-align:center;" required aria-describedby="emailHelp" placeholder="Enter destination Account Id...">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Amount:</label>
-                <input type="number" step="0.01" class="form-control" name="amount" style="text-align:center;" placeholder="Enter amount...">
+                <input type="number" step="0.01" class="form-control" name="amount" style="text-align:center;" required placeholder="Enter amount...">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

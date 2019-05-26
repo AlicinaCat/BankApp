@@ -14,17 +14,17 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Name</label>
-                    <input value="@Model.Customer.Givenname" asp-for="@Model.Customer.Givenname" type="text" class="form-control" id="inputEmail4" placeholder="Name">
+                    <input value="@Model.Customer.Givenname" required asp-for="@Model.Customer.Givenname" type="text" class="form-control" id="inputEmail4" placeholder="Name">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Last name</label>
-                    <input value="@Model.Customer.Surname" asp-for="@Model.Customer.Surname" type="text" class="form-control" id="inputPassword4" placeholder="Last name">
+                    <input value="@Model.Customer.Surname" asp-for="@Model.Customer.Surname" required type="text" class="form-control" id="inputPassword4" placeholder="Last name">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Birthdate</label>
-                    <input value="@Model.Birthday.ToString("yyyy-MM-dd")" asp-for="@Model.Customer.Birthday" type="date" class="form-control" id="inputEmail4" placeholder="">
+                    <input value="@Model.Birthday.ToString("yyyy-MM-dd")" required asp-for="@Model.Customer.Birthday" type="date" class="form-control" id="inputEmail4" placeholder="">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="inputPassword4">Gender</label>
@@ -67,29 +67,34 @@
             </div>
             <div class="form-group">
                 <label for="inputAddress">Address</label>
-                <input value="@Model.Customer.Streetaddress" asp-for="@Model.Customer.Streetaddress" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                <input value="@Model.Customer.Streetaddress" required asp-for="@Model.Customer.Streetaddress" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
             </div>
             <div class="form-row">
                 <div class="form-group col-md-5">
                     <label for="inputCity">City</label>
-                    <input value="@Model.Customer.City" asp-for="@Model.Customer.City" type="text" class="form-control" id="inputCity">
+                    <input value="@Model.Customer.City" required asp-for="@Model.Customer.City" type="text" class="form-control" id="inputCity">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputCity">Country</label>
-                    <input value="@Model.Customer.Country" asp-for="@Model.Customer.Country" type="text" class="form-control" id="inputCountry">
+                    <input value="@Model.Customer.Country" required asp-for="@Model.Customer.Country" type="text" class="form-control" id="inputCountry">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputCity">Country Code</label>
-                    <input value="@Model.Customer.CountryCode" asp-for="@Model.Customer.CountryCode" type="text" class="form-control" id="inputCountry" placeholder="SE">
+                    <input value="@Model.Customer.CountryCode" required asp-for="@Model.Customer.CountryCode" type="text" class="form-control" id="inputCountry" placeholder="SE">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="inputZip">Zip</label>
-                    <input value="@Model.Customer.Zipcode" asp-for="@Model.Customer.Zipcode" type="text" class="form-control" id="inputZip">
+                    <input value="@Model.Customer.Zipcode" required asp-for="@Model.Customer.Zipcode" type="text" class="form-control" id="inputZip">
                 </div>
             </div>
             <input type="hidden" asp-for="@Model.Customer.CustomerId" value="@Model.Customer.CustomerId" />
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
-
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @Html.Raw(TempData["error"])
+            </div>
+        }
     </div>
 </section>

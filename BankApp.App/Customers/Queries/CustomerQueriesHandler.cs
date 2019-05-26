@@ -21,7 +21,7 @@ namespace BankApp.App.Customers.Queries
             this.context = context;
         }
 
-        public List<Customer> GetCustomers()
+        public List<Customer> GetCustomersList()
         {
             return context.Customers.ToList();
         }
