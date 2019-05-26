@@ -1,5 +1,6 @@
 ﻿using BankApp.Data;
 using BankApp.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,11 @@ namespace BankApp.App.Transactions.Queries
         {
             const int pageSize = 20;
 
-            var totalNumber = context.Transactions.ToList().Count;
+            var totalNumber = context.Transactions.AsNoTracking().ToList().Count;
 
             while (page * pageSize < totalNumber)
             {
-                return context.Transactions.OrderByDescending(t => t.Date).Where(t => t.AccountId == id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                return context.Transactions.AsNoTracking().Where(t => t.AccountId == id).OrderByDescending(t => t.Date).Skip((page - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return null;

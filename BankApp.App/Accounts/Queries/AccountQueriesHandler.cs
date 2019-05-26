@@ -23,12 +23,12 @@ namespace BankApp.App.Accounts.Queries
 
         public List<Account> GetAllAccounts()
         {
-            return context.Accounts.ToList();
+            return context.Accounts.AsNoTracking().ToList();
         }
 
         public Account GetAccount(int accountId)
         {
-            return context.Accounts.Include(a => a.Transactions).SingleOrDefault(a => a.AccountId == accountId);
+            return context.Accounts.AsNoTracking().Include(a => a.Transactions).SingleOrDefault(a => a.AccountId == accountId);
         }
 
         public decimal CalculateTotalBalance()
