@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using BankApp.App.Transactions.Queries;
 using BankApp.Domain;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BankApp.Web.Controllers
 {
@@ -41,16 +42,12 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpGet("me")]
-        [Authorize(Roles = "Admin")]
-        public ActionResult/*<Domain.Customer>*/ GetCustomerProfile(int id)
+        [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult/*<Domain.Customer>*/ GetCustomerProfile()
         {
-                var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
-                if (idClaim != null)
-                {
-                    return Ok($"This is your Id: {idClaim.Value}");
-                }
-                return BadRequest("No claim");
-                //return customerQueriesHandler.GetCustomer(id);
+
+            return Ok($"This is your Id:");
+            //return customerQueriesHandler.GetCustomer(id);
         }
     }
 }
