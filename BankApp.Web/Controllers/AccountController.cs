@@ -123,5 +123,31 @@ namespace BankApp.Web.Controllers
 
             return View();
         }
+
+        public IActionResult ApplyInterest()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ApplyInterest(int accountId, double rate, DateTime lastTimeApplied)
+        {
+            if (ModelState.IsValid)
+            {
+                int result = accountHandler.ApplyInterest(accountId, rate, lastTimeApplied);
+
+                if (result == 1)
+                {
+                    TempData["success"] = "Operation executed successfully.";
+
+                    return View();
+                }
+            }
+
+            TempData["error"] = "Operation was unsuccessful. Please check that rate and account Id are correct.";
+
+
+            return View();
+        }
     }
 }

@@ -68,8 +68,6 @@ namespace BankApp.App.Accounts.Commands
             }
 
             return -1;
-
-            // TODO - send negative amount in withdrawal
         }
 
         public int Transfer(int accountFromId, int accountToId, decimal amount)
@@ -110,18 +108,23 @@ namespace BankApp.App.Accounts.Commands
             return account.AccountId;
         }
 
-        public void ApplyInterest(int accountId, double rate, DateTime latestInterestDate)
+        public int ApplyInterest(int accountId, double rate, DateTime latestInterestDate)
         {
             Account account = accountQueriesHandler.GetAccount(accountId);
+
+            rate /= 100;
             DateTime currentDate = DateTime.Now;
             double days = (currentDate - latestInterestDate).TotalDays;
             decimal amount = (decimal)((double)account.Balance * rate / 365 * days);
             amount = Decimal.Round(amount, 2);
             account.Balance += amount;
+
             context.Update(account);
             context.SaveChanges();
 
-            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Interest", "Interest");
+            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Interest", "Credit");
+
+            return 1;
         }
     }
 }
