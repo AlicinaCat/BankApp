@@ -10,6 +10,8 @@ using BankApp.App.Customers.Commands;
 using System.Linq;
 using BankApp.App.Customers.Queries;
 using BankApp.App.Dispositions.Queries;
+using System;
+using BankApp.Infrastructure.Services;
 
 namespace Tests
 {
@@ -294,6 +296,65 @@ namespace Tests
 
             Assert.AreEqual(accountFromBalanceAfter, accountFromBalanceBefore);
             Assert.AreEqual(accountToBalanceAfter, accountToBalanceBefore);
+        }
+
+        [Test]
+        public void InterestIsCorrectlyApplied_WhenUserActivatesInterest()
+        {
+            int accountId = 77;
+
+            options = new DbContextOptionsBuilder<BankAppDataContext>()
+            .UseInMemoryDatabase(databaseName: "TestingDb")
+            .Options;
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
+
+                context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+                context.SaveChanges();
+            }
+
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
+
+                decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
+
+                double rate = 0.02;
+                DateTime latestInterestDate = new DateTime(2018, 02, 02);
+
+                CustomDateTimeNowProvider provider = new CustomDateTimeNowProvider();
+                provider.GivenDate = new DateTime(2019, 12, 02);
+                var currentDate = provider.Now;
+                
+                accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate, currentDate);
+
+                decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
+                double days = (currentDate - latestInterestDate).TotalDays;
+
+                Assert.AreEqual(balanceAfter, balanceBefore + (decimal)((double)balanceBefore * rate / 365 * days));
+            }
+        }
+
+        [Test]
+        public void TransactionIsCreated_WhenUserAppliesInterest()
+        {
+            int allTransactionsBefore = context.Transactions.CountAsync().Result;
+            int accountId = 77;
+
+            double rate = 0.02;
+            DateTime latestInterestDate = new DateTime(2018, 02, 02);
+
+            CustomDateTimeNowProvider provider = new CustomDateTimeNowProvider();
+            provider.GivenDate = new DateTime(2019, 12, 02);
+            var currentDate = provider.Now;
+            accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate, currentDate);
+
+            int allTransactionsAfter = context.Transactions.CountAsync().Result;
+
+            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
         }
     }
 }

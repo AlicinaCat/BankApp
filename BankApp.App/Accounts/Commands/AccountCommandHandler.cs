@@ -108,5 +108,19 @@ namespace BankApp.App.Accounts.Commands
 
             return account.AccountId;
         }
+
+        public void ApplyInterest(int accountId, double rate, DateTime latestInterestDate, DateTime currentDate)
+        {
+            Account account = accountQueriesHandler.GetAccount(accountId);
+
+            double days = (currentDate - latestInterestDate).TotalDays;
+            decimal amount = (decimal)((double)account.Balance * rate / 365 * days);
+
+            account.Balance += amount;
+            context.Update(account);
+            context.SaveChanges();
+
+            transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Interest", "Interest");
+        }
     }
 }
