@@ -30,7 +30,8 @@ namespace BankApp.App.Transactions.Queries
 
             while (page * pageSize < totalNumber)
             {
-                return context.Transactions.AsNoTracking().Where(t => t.AccountId == id).OrderByDescending(t => t.Date).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                 var transactions = context.Transactions.AsNoTracking().Where(t => t.AccountId == id).OrderByDescending(t => t.Date).Skip((page - 1) * pageSize).Take(pageSize);
+                 return transactions.ToList();
             }
 
             return null;

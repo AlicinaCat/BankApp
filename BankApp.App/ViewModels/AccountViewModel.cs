@@ -29,13 +29,14 @@ namespace BankApp.App.ViewModels
             this.customer_queries = new CustomerQueriesHandler(context);
             this.account_queries = new AccountQueriesHandler(context);
 
-            Account = account_queries.GetAccount(accountId);
+            Account = account_queries.GetAccountWithTransactions(accountId);
             Customer = customer_queries.GetCustomer(customerId);
         }
 
         public List<Transaction> GetTransactionPage(int take, int skip)
         {
-            return Account.Transactions.OrderByDescending(t => t.Date).Skip(skip).Take(take).ToList();
+            var transactions = Account.Transactions.OrderByDescending(t => t.Date).Skip(skip).Take(take);
+            return transactions.ToList();
         }
     }
 }

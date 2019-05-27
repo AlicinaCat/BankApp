@@ -28,6 +28,11 @@ namespace BankApp.App.Accounts.Queries
 
         public Account GetAccount(int accountId)
         {
+            return context.Accounts.AsNoTracking().SingleOrDefault(a => a.AccountId == accountId);
+        }
+
+        public Account GetAccountWithTransactions(int accountId)
+        {
             return context.Accounts.AsNoTracking().Include(a => a.Transactions).SingleOrDefault(a => a.AccountId == accountId);
         }
 
