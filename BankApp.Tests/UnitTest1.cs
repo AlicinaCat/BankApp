@@ -325,16 +325,15 @@ namespace Tests
                 double rate = 0.02;
                 DateTime latestInterestDate = new DateTime(2018, 02, 02);
 
-                CustomDateTimeNowProvider provider = new CustomDateTimeNowProvider();
-                provider.GivenDate = new DateTime(2019, 12, 02);
-                var currentDate = provider.Now;
+                SystemTime.Now = () => new DateTime(2020, 1, 1);
+                var currentDate = DateTime.Now;
                 
-                accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate, currentDate);
+                accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
 
                 decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
                 double days = (currentDate - latestInterestDate).TotalDays;
-
-                Assert.AreEqual(balanceAfter, balanceBefore + (decimal)((double)balanceBefore * rate / 365 * days));
+                
+                Assert.AreEqual(balanceAfter, Decimal.Round(balanceBefore + (decimal)((double)balanceBefore * rate / 365 * days), 2));
             }
         }
 
@@ -347,10 +346,9 @@ namespace Tests
             double rate = 0.02;
             DateTime latestInterestDate = new DateTime(2018, 02, 02);
 
-            CustomDateTimeNowProvider provider = new CustomDateTimeNowProvider();
-            provider.GivenDate = new DateTime(2019, 12, 02);
-            var currentDate = provider.Now;
-            accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate, currentDate);
+            SystemTime.Now = () => new DateTime(2020, 1, 1);
+            var currentDate = DateTime.Now;
+            accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
 
             int allTransactionsAfter = context.Transactions.CountAsync().Result;
 

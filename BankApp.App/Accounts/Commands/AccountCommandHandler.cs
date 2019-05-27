@@ -3,6 +3,7 @@ using BankApp.App.Accounts.Queries;
 using BankApp.App.Transactions.Commands;
 using BankApp.Data;
 using BankApp.Domain;
+using BankApp.Infrastructure.Services;
 
 namespace BankApp.App.Accounts.Commands
 {
@@ -109,13 +110,13 @@ namespace BankApp.App.Accounts.Commands
             return account.AccountId;
         }
 
-        public void ApplyInterest(int accountId, double rate, DateTime latestInterestDate, DateTime currentDate)
+        public void ApplyInterest(int accountId, double rate, DateTime latestInterestDate)
         {
             Account account = accountQueriesHandler.GetAccount(accountId);
-
+            DateTime currentDate = DateTime.Now;
             double days = (currentDate - latestInterestDate).TotalDays;
             decimal amount = (decimal)((double)account.Balance * rate / 365 * days);
-
+            amount = Decimal.Round(amount, 2);
             account.Balance += amount;
             context.Update(account);
             context.SaveChanges();

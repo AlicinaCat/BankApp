@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BankApp.Domain\BankApp.Domain.csproj" />
     <ProjectReference Include="..\BankApp.Data\BankApp.Data.csproj" />
+    <ProjectReference Include="..\BankApp.Infrastructure\BankApp.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Accounts\" />
