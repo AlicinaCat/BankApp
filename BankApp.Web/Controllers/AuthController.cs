@@ -31,6 +31,7 @@ namespace BankApp.Web.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Role, "Admin", "true"));
             claims.Add(new Claim(ClaimTypes.Role, "Customer", "true"));
+            claims.Add(new Claim("Id", "110"));
 
             //create token
             var token = new JwtSecurityToken(
