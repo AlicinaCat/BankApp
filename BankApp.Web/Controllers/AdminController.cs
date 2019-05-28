@@ -45,9 +45,10 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageUsers(bool isAdmin, string userId)
         {
-                Domain.User user = await UserManager.FindByIdAsync(userId);
+            Domain.User user = await UserManager.FindByIdAsync(userId);
 
             if (isAdmin)
             {
@@ -70,6 +71,7 @@ namespace BankApp.Web.Controllers
                 {
                     await UserManager.AddToRoleAsync(user, "Admin");
                 }
+
             }
 
             return RedirectToAction("ManageUsers");

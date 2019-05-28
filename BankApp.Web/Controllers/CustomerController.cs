@@ -53,6 +53,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateNewCustomer(NewCustomerViewModel model)
         {
             if (ModelState.IsValid)
@@ -73,6 +74,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditCustomer(EditCustomerViewModel model)
         {
             if (ModelState.IsValid)

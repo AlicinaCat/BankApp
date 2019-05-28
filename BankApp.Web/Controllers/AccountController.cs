@@ -53,6 +53,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Deposit(int accountId, decimal amount)
         {
             if (ModelState.IsValid)
@@ -79,6 +80,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Withdraw(int accountId, decimal amount)
         {
             if (ModelState.IsValid)
@@ -104,6 +106,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Transfer(int accountFromId, int accountToId, decimal amount)
         {
             if (ModelState.IsValid)
@@ -130,6 +133,7 @@ namespace BankApp.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult ApplyInterest(int accountId, double rate, DateTime lastTimeApplied)
         {
             if (ModelState.IsValid)
