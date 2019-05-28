@@ -41,15 +41,18 @@ namespace BankApp.Web.Controllers
             return transactionQueryHandler.GetTransactionsByAccount(id, page);
         }
 
+
         [HttpGet("me")]
         [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult GetCustomerProfile()
+        public ActionResult/*<Domain.Customer>*/ GetCustomerProfile()
         {
             var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
+            var customers = customerQueriesHandler.GetCustomersList();
+            var customer = customers.FirstOrDefault(c => c.Emailaddress == idClaim.Value);
 
             if (idClaim != null)
             {
-                return Ok(customerQueriesHandler.GetCustomer(int.Parse(idClaim.Value)));
+                return Ok(customer);
             }
             return BadRequest("No claim");
         }

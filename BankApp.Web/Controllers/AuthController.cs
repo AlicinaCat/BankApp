@@ -16,28 +16,43 @@ namespace BankApp.Web.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost("token")]
-        public async Task<ActionResult> GetToken()
+        private readonly UserManager<Domain.User> userManager;
+        private readonly SignInManager<Domain.User> signInManager;
+
+        public AuthController(UserManager<Domain.User> userManager, SignInManager<Domain.User> signInManager)
         {
-            string securityKey = "this_is_our_supper_long_security_key_for_token_validation_project_2018_09_07$smesk.in";
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+        }
 
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
+        [HttpPost("token")]
+        public async Task<ActionResult> GetToken(string username, string password)
+        {
+            var result = await signInManager.PasswordSignInAsync(username, password, true, false);
 
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Role, "Admin", "true"));
-            claims.Add(new Claim(ClaimTypes.Role, "Customer", "true"));
-            claims.Add(new Claim("Id", "110"));
+            if (result.Succeeded)
+            {
+                string securityKey = "this_is_our_supper_long_security_key_for_token_validation_project_2018_09_07$smesk.in";
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
+                var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var token = new JwtSecurityToken(
-                    issuer: "smesk.in",
-                    audience: "admins",
-                    expires: DateTime.Now.AddHours(1),
-                    signingCredentials: signingCredentials
-                    , claims: claims
-                );
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Role, "Admin", "true"));
+                claims.Add(new Claim(ClaimTypes.Role, "Customer", "true"));
+                claims.Add(new Claim("Id", username));
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                var token = new JwtSecurityToken(
+                        issuer: "smesk.in",
+                        audience: "admins",
+                        expires: DateTime.Now.AddHours(1),
+                        signingCredentials: signingCredentials
+                        , claims: claims
+                    );
+
+                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            }
+
+            return Unauthorized();
         }
     }
 }
