@@ -43,7 +43,7 @@ namespace BankApp.Web.Controllers
 
         [HttpGet("me")]
         [Authorize(Roles = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult/*<Domain.Customer>*/ GetCustomerProfile()
+        public ActionResult GetCustomerProfile()
         {
             var idClaim = User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.InvariantCultureIgnoreCase));
 
@@ -52,7 +52,6 @@ namespace BankApp.Web.Controllers
                 return Ok(customerQueriesHandler.GetCustomer(int.Parse(idClaim.Value)));
             }
             return BadRequest("No claim");
-            //return customerQueriesHandler.GetCustomer(id);
         }
     }
 }

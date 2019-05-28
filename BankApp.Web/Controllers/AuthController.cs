@@ -19,21 +19,16 @@ namespace BankApp.Web.Controllers
         [HttpPost("token")]
         public async Task<ActionResult> GetToken()
         {
-            //security key
             string securityKey = "this_is_our_supper_long_security_key_for_token_validation_project_2018_09_07$smesk.in";
-            //symmetric security key
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
 
-            //signing credentials
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            //add claims
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Role, "Admin", "true"));
             claims.Add(new Claim(ClaimTypes.Role, "Customer", "true"));
             claims.Add(new Claim("Id", "110"));
 
-            //create token
             var token = new JwtSecurityToken(
                     issuer: "smesk.in",
                     audience: "admins",
@@ -42,7 +37,6 @@ namespace BankApp.Web.Controllers
                     , claims: claims
                 );
 
-            //return token
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
