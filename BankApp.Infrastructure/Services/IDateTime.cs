@@ -6,9 +6,17 @@ using System.Text;
 
 namespace BankApp.Infrastructure.Services
 {
-    public static class SystemTime
+    public interface ISystemClock
     {
-        public static Func<DateTime> Now = () => DateTime.Now;
+        DateTime GetCurrentTime();
+    }
+
+    public class SystemClock : ISystemClock
+    {
+        public DateTime GetCurrentTime()
+        {
+            return DateTime.UtcNow;
+        }
     }
 }
 

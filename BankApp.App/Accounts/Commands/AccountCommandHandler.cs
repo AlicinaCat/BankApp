@@ -12,12 +12,14 @@ namespace BankApp.App.Accounts.Commands
         private readonly BankAppDataContext context;
         private AccountQueriesHandler accountQueriesHandler;
         private TransactionCommandsHandler transactionCommandsHandler;
+        private readonly ISystemClock systemClock;
 
         public AccountCommandHandler()
         {
             this.context = new BankAppDataContext();
             this.accountQueriesHandler = new AccountQueriesHandler(context);
             this.transactionCommandsHandler = new TransactionCommandsHandler(context);
+            this.systemClock = new SystemClock();
         }
 
         public AccountCommandHandler(BankAppDataContext context)
@@ -25,6 +27,15 @@ namespace BankApp.App.Accounts.Commands
             this.context = context;
             this.accountQueriesHandler = new AccountQueriesHandler(context);
             this.transactionCommandsHandler = new TransactionCommandsHandler(context);
+            this.systemClock = new SystemClock();
+        }
+
+        public AccountCommandHandler(BankAppDataContext context, ISystemClock systemClock)
+        {
+            this.context = context;
+            this.accountQueriesHandler = new AccountQueriesHandler(context);
+            this.transactionCommandsHandler = new TransactionCommandsHandler(context);
+            this.systemClock = systemClock;
         }
 
         public int Deposit(int accountId, decimal amount)
@@ -113,7 +124,7 @@ namespace BankApp.App.Accounts.Commands
             Account account = accountQueriesHandler.GetAccount(accountId);
 
             rate /= 100;
-            DateTime currentDate = DateTime.Now;
+            DateTime currentDate = systemClock.GetCurrentTime();
             double days = (currentDate - latestInterestDate).TotalDays;
             decimal amount = (decimal)((double)account.Balance * rate / 365 * days);
             amount = Decimal.Round(amount, 2);

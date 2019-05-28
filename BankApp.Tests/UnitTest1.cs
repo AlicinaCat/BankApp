@@ -24,6 +24,7 @@ namespace Tests
         CustomerCommandHandler customerCommandHandler;
         CustomerQueriesHandler customerQueriesHandler;
         DispositionQueriesHandler dispositionQueriesHandler;
+        private ISystemClock systemClock;
 
         [SetUp]
         public void Setup()
@@ -32,6 +33,7 @@ namespace Tests
                     .UseInMemoryDatabase(databaseName: "TestingDb")
                     .Options;
 
+            systemClock = Substitute.For<ISystemClock>();
             context = new BankAppDataContext(options);
             accountQueriesHandler = new AccountQueriesHandler(context);
             accountCommandHandler = new AccountCommandHandler(context);
@@ -309,7 +311,7 @@ namespace Tests
             using (var context = new BankAppDataContext(options))
             {
                 accountQueriesHandler = new AccountQueriesHandler(context);
-                accountCommandHandler = new AccountCommandHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context, systemClock);
 
                 context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
                 context.SaveChanges();
@@ -317,23 +319,24 @@ namespace Tests
 
             using (var context = new BankAppDataContext(options))
             {
+                var systemClock = Substitute.For<ISystemClock>();
+                systemClock.GetCurrentTime().Returns(new DateTime(2020, 4, 4, 14, 0, 0, DateTimeKind.Utc));
                 accountQueriesHandler = new AccountQueriesHandler(context);
-                accountCommandHandler = new AccountCommandHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context, systemClock);
 
                 decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
 
                 double rate = 2;
-                DateTime latestInterestDate = new DateTime(2018, 02, 02);
 
-                SystemTime.Now = () => new DateTime(2020, 1, 1);
-                var currentDate = DateTime.Now;
-                
+                DateTime latestInterestDate = new DateTime(2018, 02, 02);
+                var currentDate = new DateTime(2020, 4, 4, 14, 0, 0, DateTimeKind.Utc);
+
                 accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
 
                 decimal balanceAfter = accountQueriesHandler.GetAccount(accountId).Balance;
                 double days = (currentDate - latestInterestDate).TotalDays;
                 
-                Assert.AreEqual(balanceAfter, Decimal.Round(balanceBefore + (decimal)((double)balanceBefore * rate / 365 * days), 2));
+                Assert.AreEqual(balanceAfter, Decimal.Round(balanceBefore + (decimal)((double)balanceBefore * rate / 100 / 365 * days), 2));
             }
         }
 
@@ -348,7 +351,7 @@ namespace Tests
             using (var context = new BankAppDataContext(options))
             {
                 accountQueriesHandler = new AccountQueriesHandler(context);
-                accountCommandHandler = new AccountCommandHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context, systemClock);
 
                 context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
                 context.SaveChanges();
@@ -356,15 +359,15 @@ namespace Tests
 
             using (var context = new BankAppDataContext(options))
             {
+                var systemClock = Substitute.For<ISystemClock>();
+                systemClock.GetCurrentTime().Returns(new DateTime(2020, 4, 4, 14, 0, 0, DateTimeKind.Utc));
                 accountQueriesHandler = new AccountQueriesHandler(context);
-                accountCommandHandler = new AccountCommandHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context, systemClock);
 
                 int allTransactionsBefore = context.Transactions.CountAsync().Result;
 
                 double rate = 0.02;
                 DateTime latestInterestDate = new DateTime(2018, 02, 02);
-
-                SystemTime.Now = () => new DateTime(2020, 1, 1);
                 var currentDate = DateTime.Now;
                 accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
 
