@@ -61,7 +61,7 @@ namespace BankApp.App.Accounts.Commands
                     context.Update(account);
                     context.SaveChanges();
 
-                    transactionCommandsHandler.CreateTransaction(accountId, amount, account.Balance, "Withdrawal", "Debit");
+                    transactionCommandsHandler.CreateTransaction(accountId, -amount, account.Balance, "Withdrawal", "Debit");
 
                     return 1;
                 }

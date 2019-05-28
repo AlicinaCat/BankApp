@@ -301,7 +301,7 @@ namespace Tests
         [Test]
         public void InterestIsCorrectlyApplied_WhenUserActivatesInterest()
         {
-            int accountId = 77;
+            int accountId = 78;
 
             options = new DbContextOptionsBuilder<BankAppDataContext>()
             .UseInMemoryDatabase(databaseName: "TestingDb")
@@ -322,7 +322,7 @@ namespace Tests
 
                 decimal balanceBefore = accountQueriesHandler.GetAccount(accountId).Balance;
 
-                double rate = 0.02;
+                double rate = 2;
                 DateTime latestInterestDate = new DateTime(2018, 02, 02);
 
                 SystemTime.Now = () => new DateTime(2020, 1, 1);
@@ -340,19 +340,38 @@ namespace Tests
         [Test]
         public void TransactionIsCreated_WhenUserAppliesInterest()
         {
-            int allTransactionsBefore = context.Transactions.CountAsync().Result;
             int accountId = 77;
 
-            double rate = 0.02;
-            DateTime latestInterestDate = new DateTime(2018, 02, 02);
+            options = new DbContextOptionsBuilder<BankAppDataContext>()
+            .UseInMemoryDatabase(databaseName: "TestingDb")
+            .Options;
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            SystemTime.Now = () => new DateTime(2020, 1, 1);
-            var currentDate = DateTime.Now;
-            accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
+                context.Accounts.Add(new Account { AccountId = accountId, Balance = 2000 });
+                context.SaveChanges();
+            }
 
-            int allTransactionsAfter = context.Transactions.CountAsync().Result;
+            using (var context = new BankAppDataContext(options))
+            {
+                accountQueriesHandler = new AccountQueriesHandler(context);
+                accountCommandHandler = new AccountCommandHandler(context);
 
-            Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
+                int allTransactionsBefore = context.Transactions.CountAsync().Result;
+
+                double rate = 0.02;
+                DateTime latestInterestDate = new DateTime(2018, 02, 02);
+
+                SystemTime.Now = () => new DateTime(2020, 1, 1);
+                var currentDate = DateTime.Now;
+                accountCommandHandler.ApplyInterest(accountId, rate, latestInterestDate);
+
+                int allTransactionsAfter = context.Transactions.CountAsync().Result;
+
+                Assert.AreEqual(allTransactionsAfter, allTransactionsBefore + 1);
+            }
         }
     }
 }

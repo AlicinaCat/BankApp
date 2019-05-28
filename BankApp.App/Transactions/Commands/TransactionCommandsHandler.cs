@@ -20,7 +20,7 @@ namespace BankApp.App.Transactions.Commands
                 AccountId = accountId,
                 Date = DateTime.Now.Date,
                 Operation = operation,
-                Amount = -amount,
+                Amount = amount,
                 Balance = balance,
                 Type = type
             };
